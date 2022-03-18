@@ -1,0 +1,56 @@
+args:
+- default: true
+  description: Input string to transform to JSON object
+  name: input
+  required: true
+comment: Loads a json from string input, and returns a json object result
+commonfields:
+  id: LoadJSON
+  version: -1
+contentitemexportablefields:
+  contentitemfields:
+    fromServerVersion: 5.0.0
+    itemVersion: 1.4.50
+    packID: CommonScripts
+    packPropagationLabels:
+    - all
+    propagationLabels: []
+    toServerVersion: ""
+dockerimage: demisto/python3:3.9.7.24076
+enabled: true
+engineinfo: {}
+name: LoadJSON
+outputs:
+- contextPath: JsonObject
+  description: The JSON object loaded from input
+pswd: ""
+runas: DBotWeakRole
+runonce: false
+script: |2
+
+
+
+  import json
+
+
+  def load_json(args):
+      json_str = args['input']
+      obj = json.loads(json_str, strict=False)
+
+      return {
+          "EntryContext": {"JsonObject": obj},
+          "Type": entryTypes['note'],
+          "ContentsFormat": formats['json'],
+          "Contents": obj
+      }
+
+
+  if __name__ in ('__builtin__', 'builtins', '__main__'):
+      res = load_json(demisto.args())
+      demisto.results(res)
+scripttarget: 0
+subtype: python3
+system: true
+tags:
+- Utility
+type: python
