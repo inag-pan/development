@@ -1,0 +1,37 @@
+comment: Return the Demisto server version.
+commonfields:
+  id: DemistoVersion
+  version: -1
+contentitemexportablefields:
+  contentitemfields:
+    fromServerVersion: 5.0.0
+    itemVersion: 1.4.50
+    packID: CommonScripts
+    packPropagationLabels:
+    - all
+    propagationLabels: []
+    toServerVersion: ""
+dockerimage: demisto/python3:3.9.7.24076
+enabled: true
+engineinfo: {}
+name: DemistoVersion
+outputs:
+- contextPath: DemistoVersion.version
+  description: The version of the Demisto server.
+  type: string
+- contextPath: DemistoVersion.buildNumber
+  description: The build number of the Demisto server.
+  type: string
+pswd: ""
+runas: DBotWeakRole
+runonce: false
+script: |2
+
+
+  version = get_demisto_version()
+  return_outputs(tableToMarkdown("Demisto Version", version), {"DemistoVersion": version})
+scripttarget: 0
+subtype: python3
+system: true
+tags: []
+type: python

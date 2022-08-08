@@ -1,0 +1,1195 @@
+{
+	"author": "Cortex XSOAR",
+	"authorImage": "content/packs/Base/Author_image.png",
+	"beta": false,
+	"categories": [
+		"Data Enrichment \u0026 Threat Intelligence"
+	],
+	"certification": "certified",
+	"contentItemTypes": [
+		"incidenttype",
+		"playbook",
+		"layoutscontainer"
+	],
+	"contentItems": {
+		"automation": null,
+		"classifier": null,
+		"dashboard": null,
+		"incidentfield": null,
+		"incidenttype": [
+			{
+				"closureScript": "",
+				"days": 0,
+				"hours": 0,
+				"name": "Review Indicators Manually",
+				"playbook": "TIM - Review Indicators Manually",
+				"weeks": 0
+			},
+			{
+				"closureScript": "",
+				"days": 0,
+				"hours": 0,
+				"name": "Review Indicators Manually For Whitelisting",
+				"playbook": "TIM - Review Indicators Manually For Whitelisting",
+				"weeks": 0
+			}
+		],
+		"indicatorfield": null,
+		"integration": null,
+		"layoutscontainer": [
+			{
+				"description": "",
+				"name": "Review Indicators Manually Incident"
+			},
+			{
+				"description": "",
+				"name": "Review Indicators Manually For Whitelisting Incident"
+			}
+		],
+		"playbook": [
+			{
+				"description": "This playbook uses several sub playbooks to process and tag indicators, which is used to identify indicators that shouldn't be blacklisted. For example IP indicators that belong to business partners or important hashes we wish to not process. Additional sub playbooks can be added for improving the business logic and tagging according to the user's needs. This playbook doesn't have its own indicator query as it processes indicators provided by the parent playbook query. To enable the playbook, provide the relevant list names in the sub playbook indicators, such as the ApprovedHashList, OrganizationsExternalIPListName, BusinessPartnersIPListName, etc. Also be sure to append the results of additional sub playbooks to Set indicators to Process Indicators for the additional playbooks results to be in the outputs.",
+				"name": "TIM - Indicator Auto Processing"
+			},
+			{
+				"description": "This playbooks allows you to exclude indicators according to the number of incidents the indicator is related to. The indicator query is \"investigationsCount:\u003e=X\" where X is the number of related incidents to the indicator that you set. Excluded indicators are located in the Cortex XSOAR exclusion list and are removed from all of their related incidents and future ones. The purpose of excluding these indicators is to reduce the amount internal and common indicators appearing in many incidents and showing only relevant indicators. Creating exclusions can also accelerate performance.",
+				"name": "TIM - Indicators Exclusion By Related Incidents"
+			},
+			{
+				"description": "This playbook processes CIDR indicators of both IPV4 and IPV6. By specifying in the inputs the maximum number of hosts allowed per CIDR, the playbook tags any CIDR that exceeds the number as pending_review. If the maximum CIDR size is not specified in the inputs, the playbook does not run.",
+				"name": "TIM - Process CIDR Indicators By Size"
+			},
+			{
+				"description": "This playbook processes file indicator by tagging them with the relevant file hash type tag, such as Sha256, Sha1, and Md5.",
+				"name": "TIM - Process File Indicators With File Hash Type"
+			},
+			{
+				"description": "This playbook tags indicators ingested from high reliability feeds. The playbook is triggered due to a Cortex XSOAR job. The indicators are tagged as approved_white, approved_black, approved_watchlist. The tagged indicators will be ready for consumption for 3rd party systems such as SIEM, EDR etc.",
+				"name": "TIM - Process Indicators - Fully Automated"
+			},
+			{
+				"description": "This playbook checks if file hash indicators exist in a Cortex XSOAR list. If the indicators exist in the list, they are tagged as approved_hash.",
+				"name": "TIM - Process Indicators Against Approved Hash List"
+			},
+			{
+				"description": "This playbook processes indicators to check if they exist in a Cortex XSOAR list containing the business partner domains, and tags the indicators accordingly.",
+				"name": "TIM - Process Indicators Against Business Partners Domains List"
+			},
+			{
+				"description": "This playbook processes indicators to check if they exist in a Cortex XSOAR list containing business partner IP addresses, and tags the indicators accordingly.",
+				"name": "TIM - Process Indicators Against Business Partners IP List"
+			},
+			{
+				"description": "This playbook processes indicators to check if they exist in a Cortex XSOAR list containing business partner urls, and tags the indicators accordingly. To enable the playbook, provide a Cortex XSOAR list name containing business partner urls.",
+				"name": "TIM - Process Indicators Against Business Partners URL List"
+			},
+			{
+				"description": "This playbook processes indicators to check if they exist in a Cortex XSOAR list containing the organizational External IP addresses or CIDR, and tags the indicators accordingly.",
+				"name": "TIM - Process Indicators Against Organizations External IP List"
+			},
+			{
+				"description": "This playbook tags indicators ingested by feeds that require manual approval. The playbook is triggered due to a job. The indicators are tagged as requiring a manual review. The playbook optionally concludes with creating a new incident that includes all of the indicators that the analyst must review.\nTo enable the playbook, the indicator query needs to be configured. An example query is a list of the feeds whose ingested indicators should be manually reviewed. For example, sourceBrands:\"Feed A\" or sourceBrands:\"Feed B\".",
+				"name": "TIM - Process Indicators - Manual Review"
+			},
+			{
+				"description": "This playbook helps analysts manage the manual process of reviewing indicators. The playbook indicator query is set to search for indicators that have the 'pending review' tag. The playbook's layout displays all of the related indicators in the summary page. While reviewing the indicators, the analyst can go to the summary page and tag the indicators accordingly with tags 'such as, 'approved_black', 'approved_white', etc. Once the analyst completes their review, the playbook can optionally send an email with a list of changes done by the analyst which haven't been approved. Once complete, the playbook removes the 'pending review' tag from the indicators.",
+				"name": "TIM - Review Indicators Manually"
+			},
+			{
+				"description": "This playbook helps analysts manage the manual process of whitelisting indicators from cloud providers, apps, services etc . The playbook indicator query is set to search for indicators that have the 'whitelist_review' tag. The playbooks layout displays all of the related indicators in the summary page. While reviewing the indicators, the analyst can go to the summary page and tag the indicators accordingly with tags such as, 'approved_black', 'approved_white', etc. Once the analyst completes the review, the playbook can optionally send an email with a list of changes done by the analyst which haven't been approved. Once complete, the playbook removes the 'whitelist review' tag from the indicators.",
+				"name": "TIM - Review Indicators Manually For Whitelisting"
+			},
+			{
+				"description": "This playbook performs enrichment on indicators\n  based on playbook query, as specified in the playbook\n  inputs. This playbook needs to be used with caution as it might use up the user\n  enrichment integration's API license when running enrichment for large amounts of\n  indicators. Example queries can be \"tags:example_tag\" for indicators with a specific tag. For a specific feed name\"\n  the query will be \"sourceBrands:example_feed\". For a specifc reputation the query will be \"reputation:None\" etc.",
+				"name": "TIM - Run Enrichment For All Indicator Types"
+			},
+			{
+				"description": "This playbook processes indicators by enriching indicators based on the indicator feed's reputation, as specified in the playbook inputs. This playbook needs to be used with caution as it might use up the user enrichment integration's API license when running enrichment for large amounts of indicators.",
+				"name": "TIM - Run Enrichment For Domain Indicators"
+			},
+			{
+				"description": "This playbook processes indicators by enriching indicators\nbased on the indicator feed's reputation, as specified in the playbook\ninputs. This playbook needs to be used with caution as it might use up the user\nenrichment integration's API license when running enrichment for large amounts of\nindicators.",
+				"name": "TIM - Run Enrichment For Hash Indicators"
+			},
+			{
+				"description": "This playbook processes indicators by enriching indicators\nbased on the indicator feed's reputation, as specified in the playbook\ninputs. This playbook needs to be used with caution as it might use up the user\nenrichment integration's API license when running enrichment for large amounts of\nindicators.",
+				"name": "TIM - Run Enrichment For IP Indicators"
+			},
+			{
+				"description": "This playbook processes indicators by enriching indicators\nbased on the indicator feed's reputation, as specified in the playbook\ninputs. This playbook needs to be used with caution as it might use up the user\nenrichment integration's API license when running enrichment for large amounts of\nindicators.",
+				"name": "TIM - Run Enrichment For Url Indicators"
+			},
+			{
+				"description": "This playbook checks if an indicator with a tag of organizational_external_ip has been updated and keeps/removes the tag according to the check results.",
+				"name": "TIM - Update Indicators Organizational External IP Tag"
+			}
+		],
+		"report": null,
+		"reputation": null,
+		"widget": null
+	},
+	"created": "2020-09-15T11:39:53Z",
+	"currentVersion": "1.1.8",
+	"dependencies": {
+		"APIVoid": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.2",
+			"name": "APIVoid"
+		},
+		"AbuseDB": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.4",
+			"name": "AbuseIPDB"
+		},
+		"Alexa": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.1.2",
+			"name": "Alexa Rank Indicator"
+		},
+		"AlienVault_OTX": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.1.2",
+			"name": "AlienVault OTX"
+		},
+		"Anomali_Enterprise": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.3",
+			"name": "Anomali Enterprise"
+		},
+		"Anomali_ThreatStream": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.1.1",
+			"name": "Anomali ThreatStream"
+		},
+		"AutoFocus": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.3.2",
+			"name": "AutoFocus"
+		},
+		"AwakeSecurity": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.1",
+			"name": "Awake Security"
+		},
+		"Barracuda": {
+			"author": "Harri Ruuttila",
+			"certification": "",
+			"mandatory": false,
+			"minVersion": "1.0.1",
+			"name": "Barracuda"
+		},
+		"Base": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": true,
+			"minVersion": "1.12.4",
+			"name": "Base"
+		},
+		"CTIX": {
+			"author": "Cyware Labs",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.0",
+			"name": "CTIX"
+		},
+		"CheckPhish": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.2",
+			"name": "CheckPhish"
+		},
+		"Cisco-umbrella": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.4",
+			"name": "Cisco Umbrella Investigate"
+		},
+		"Cofense-Intelligence": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.1",
+			"name": "Cofense Intelligence"
+		},
+		"CommonScripts": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": true,
+			"minVersion": "1.3.55",
+			"name": "Common Scripts"
+		},
+		"CrowdStrikeIntel": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.0.10",
+			"name": "CrowdStrike Falcon Intel"
+		},
+		"CrowdStrikeMalquery": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.3",
+			"name": "CrowdStrike Malquery"
+		},
+		"CyberTotal": {
+			"author": "CyCraft Technology Corporation.",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.4",
+			"name": "CyberTotal"
+		},
+		"DomainTools": {
+			"author": "DomainTools",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.1.0",
+			"name": "DomainTools"
+		},
+		"DomainTools_Iris": {
+			"author": "DomainTools",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.1.0",
+			"name": "DomainTools Iris"
+		},
+		"EclecticIQ": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.0",
+			"name": "EclecticIQ Platform"
+		},
+		"Expanse": {
+			"author": "Expanse",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.2.1",
+			"name": "Expanse (Deprecated)"
+		},
+		"ExpanseV2": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.5.1",
+			"name": "Expanse v2"
+		},
+		"Flashpoint": {
+			"author": "Flashpoint",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.1.3",
+			"name": "Flashpoint"
+		},
+		"GoogleChronicleBackstory": {
+			"author": "Chronicle",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.0.1",
+			"name": "Chronicle"
+		},
+		"GoogleSafeBrowsing": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.0.2",
+			"name": "Google Safe Browsing"
+		},
+		"GreyNoise": {
+			"author": "GreyNoise",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.3",
+			"name": "GreyNoise"
+		},
+		"HelloWorld": {
+			"author": "Cortex XSOAR",
+			"certification": "verified",
+			"mandatory": false,
+			"minVersion": "1.2.4",
+			"name": "HelloWorld"
+		},
+		"HostIo": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.1",
+			"name": "HostIo"
+		},
+		"IPQualityScore": {
+			"author": "IPQualityScore",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.1",
+			"name": "IPQualityScore (IPQS) Threat Risk Scoring"
+		},
+		"Ipstack": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.1",
+			"name": "Ipstack"
+		},
+		"IsItPhishing": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.0",
+			"name": "IsItPhishing"
+		},
+		"Lastline": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.6",
+			"name": "Lastline"
+		},
+		"MISP": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.10",
+			"name": "MISP"
+		},
+		"Maltiverse": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.4",
+			"name": "Maltiverse"
+		},
+		"MaxMind_GeoIP2": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.1",
+			"name": "MaxMind GeoIP2"
+		},
+		"McAfee-TIE": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.0",
+			"name": "McAfee Threat Intelligence Exchange"
+		},
+		"OpenPhish": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.0.3",
+			"name": "OpenPhish"
+		},
+		"PAN-OS": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.6.17",
+			"name": "PAN-OS"
+		},
+		"PaloAltoNetworks_Threat_Vault": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.4",
+			"name": "Palo Alto Networks Threat Vault"
+		},
+		"Palo_Alto_Networks_WildFire": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.3.5",
+			"name": "Palo Alto Networks WildFire"
+		},
+		"PassiveTotal": {
+			"author": "RiskIQ",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.0.9",
+			"name": "PassiveTotal"
+		},
+		"PhishTank": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.0.7",
+			"name": "PhishTank"
+		},
+		"PolySwarm": {
+			"author": "PolySwarm",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.0.0",
+			"name": "PolySwarm"
+		},
+		"Polygon": {
+			"author": "Group-IB",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.3",
+			"name": "Polygon"
+		},
+		"Pulsedive": {
+			"author": "Konrad Zacharias",
+			"certification": "",
+			"mandatory": false,
+			"minVersion": "1.0.2",
+			"name": "Pulsedive"
+		},
+		"Pwned": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.1",
+			"name": "Pwned"
+		},
+		"RSTCloud": {
+			"author": "RST Cloud",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.2",
+			"name": "RST Threat Feed"
+		},
+		"RecordedFuture": {
+			"author": "Recorded Future",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.1.2",
+			"name": "RecordedFuture v2"
+		},
+		"Recorded_Future": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.1.0",
+			"name": "Recorded Future"
+		},
+		"ReversingLabs_A1000": {
+			"author": "ReversingLabs",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.2.0",
+			"name": "ReversingLabs A1000"
+		},
+		"ReversingLabs_Titanium_Cloud": {
+			"author": "ReversingLabs",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.2.0",
+			"name": "ReversingLabs TitaniumCloud"
+		},
+		"Shodan": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.3",
+			"name": "Shodan"
+		},
+		"Sixgill-Darkfeed": {
+			"author": "Sixgill",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.0.1",
+			"name": "Sixgill Darkfeed - Annual Subscription"
+		},
+		"SlashNextPhishingIncidentResponse": {
+			"author": "SlashNext",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.2.1",
+			"name": "SlashNext Phishing Incident Response - Annual Subscription  (Direct Subscription)"
+		},
+		"Spamcop": {
+			"author": "Harri Ruuttila",
+			"certification": "",
+			"mandatory": false,
+			"minVersion": "1.0.1",
+			"name": "Spamcop"
+		},
+		"Symantec_Deepsight": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.0",
+			"name": "Symantec Deepsight Intelligence (Beta)"
+		},
+		"Synapse": {
+			"author": "Jordan Berry",
+			"certification": "",
+			"mandatory": false,
+			"minVersion": "1.0.1",
+			"name": "Synapse"
+		},
+		"TCPIPUtils": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.1",
+			"name": "TCPIPUtils (Deprecated)"
+		},
+		"ThreatConnect": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.0.14",
+			"name": "ThreatConnect"
+		},
+		"ThreatExchange": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.0.0",
+			"name": "ThreatExchange"
+		},
+		"ThreatMiner": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.3",
+			"name": "ThreatMiner"
+		},
+		"ThreatQ": {
+			"author": "ThreatQ",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.8",
+			"name": "ThreatQ"
+		},
+		"Threat_Crowd": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.0.2",
+			"name": "Threat Crowd"
+		},
+		"TruSTAR": {
+			"author": "TruSTAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.1.2",
+			"name": "TruSTAR"
+		},
+		"URLHaus": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.4",
+			"name": "URLhaus"
+		},
+		"UrlScan": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.1.6",
+			"name": "Urlscan.io"
+		},
+		"VirusTotal": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.1.1",
+			"name": "VirusTotal"
+		},
+		"Whois": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.2.3",
+			"name": "Whois"
+		},
+		"XForceExchange": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.1.3",
+			"name": "IBM X-Force Exchange"
+		},
+		"XMCyber": {
+			"author": "XM Cyber",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.7",
+			"name": "XM Cyber"
+		},
+		"Zimperium": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.7",
+			"name": "Zimperium"
+		},
+		"Zscaler": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.1.5",
+			"name": "Zscaler"
+		},
+		"iDefense": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "3.0.5",
+			"name": "iDefense"
+		},
+		"illuminate": {
+			"author": "Analyst1",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.9",
+			"name": "Analyst1"
+		},
+		"ipinfo": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "2.0.3",
+			"name": "Ipinfo"
+		},
+		"isight": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": false,
+			"minVersion": "1.0.0",
+			"name": "FireEye iSIGHT"
+		}
+	},
+	"deprecated": false,
+	"description": "Too many threat feeds? This Content Pack automates the processing of indicators at scale, significantly reducing busywork for your analysts.",
+	"downloads": 1192,
+	"eulaLink": "https://github.com/demisto/content/blob/master/LICENSE",
+	"fromServerVersion": "5.5.0",
+	"general": [
+		"generalFieldCertified",
+		"generalFieldByCortexXSOAR",
+		"generalFieldFree",
+		"generalFieldSupportIncluded"
+	],
+	"id": "TIM_Processing",
+	"installMessage": "",
+	"integrations": [
+		{
+			"imagePath": "content/packs/AutoFocus/AutoFocusDailyFeed_image.png",
+			"name": "AutoFocus Daily Feed"
+		},
+		{
+			"imagePath": "content/packs/AutoFocus/AutoFocusFeed_image.png",
+			"name": "AutoFocus Feed"
+		},
+		{
+			"imagePath": "content/packs/AutoFocus/Autofocus_image.png",
+			"name": "Palo Alto AutoFocus"
+		},
+		{
+			"imagePath": "content/packs/AutoFocus/Autofocus_image.png",
+			"name": "Palo Alto AutoFocus (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/AutoFocus/AutoFocusV2_image.png",
+			"name": "Palo Alto Networks AutoFocus v2"
+		},
+		{
+			"imagePath": "content/packs/UrlScan/urlscan.io_image.png",
+			"name": "urlscan.io"
+		},
+		{
+			"imagePath": "content/packs/PAN-OS/Panorama_image.png",
+			"name": "Palo Alto Networks PAN-OS"
+		},
+		{
+			"imagePath": "content/packs/VirusTotal/VirusTotal_image.png",
+			"name": "VirusTotal"
+		},
+		{
+			"imagePath": "content/packs/VirusTotal/VirusTotal%28APIv3%29_image.png",
+			"name": "VirusTotal (API v3)"
+		},
+		{
+			"imagePath": "content/packs/VirusTotal/VirusTotal-Premium%28APIv3%29_image.png",
+			"name": "VirusTotal - Premium (API v3)"
+		},
+		{
+			"imagePath": "content/packs/Whois/Whois_image.png",
+			"name": "Whois"
+		},
+		{
+			"imagePath": "content/packs/HelloWorld/HelloWorld_image.png",
+			"name": "HelloWorld"
+		},
+		{
+			"imagePath": "content/packs/HelloWorld/HelloWorldFeed_image.png",
+			"name": "HelloWorld Feed"
+		},
+		{
+			"imagePath": "content/packs/Palo_Alto_Networks_WildFire/WildFire-v2_image.png",
+			"name": "Palo Alto Networks WildFire v2"
+		},
+		{
+			"imagePath": "content/packs/XForceExchange/XFE_image.png",
+			"name": "IBM X-Force Exchange (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/XForceExchange/XFE_v2_image.png",
+			"name": "IBM X-Force Exchange v2"
+		},
+		{
+			"imagePath": "content/packs/ipinfo/ipinfo_v2_image.png",
+			"name": "IPinfo v2"
+		},
+		{
+			"imagePath": "content/packs/ipinfo/ipinfo_image.png",
+			"name": "ipinfo"
+		},
+		{
+			"imagePath": "content/packs/ipinfo/ipinfo_image.png",
+			"name": "ipinfo (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/PhishTank/PhishTank_image.png",
+			"name": "PhishTank (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/PhishTank/PhishTankV2_image.png",
+			"name": "PhishTank v2"
+		},
+		{
+			"imagePath": "content/packs/MISP/MISPV2_image.png",
+			"name": "MISP v2"
+		},
+		{
+			"imagePath": "content/packs/RecordedFuture/RecordedFuturev2_image.png",
+			"name": "Recorded Future v2"
+		},
+		{
+			"imagePath": "content/packs/AlienVault_OTX/AlienVaultOTXv2_image.png",
+			"name": "AlienVault OTX v2"
+		},
+		{
+			"imagePath": "content/packs/Zscaler/Zscaler_image.png",
+			"name": "Zscaler"
+		},
+		{
+			"imagePath": "content/packs/AbuseDB/AbuseIPDB_image.png",
+			"name": "AbuseIPDB"
+		},
+		{
+			"imagePath": "content/packs/CrowdStrikeIntel/FalconIntel_image.png",
+			"name": "CrowdStrike Falcon Intel"
+		},
+		{
+			"imagePath": "content/packs/CrowdStrikeIntel/FalconIntel_image.png",
+			"name": "CrowdStrike Falcon Intel (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/CrowdStrikeIntel/CrowdStrikeFalconIntelv2_image.png",
+			"name": "CrowdStrike Falcon Intel v2"
+		},
+		{
+			"imagePath": "content/packs/PassiveTotal/PassiveTotal_image.png",
+			"name": "PassiveTotal"
+		},
+		{
+			"imagePath": "content/packs/PassiveTotal/PassiveTotal_image.png",
+			"name": "PassiveTotal (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/PassiveTotal/PassiveTotalv2_image.png",
+			"name": "PassiveTotal v2"
+		},
+		{
+			"imagePath": "content/packs/Anomali_ThreatStream/AnomaliThreatStream_image.png",
+			"name": "Anomali ThreatStream"
+		},
+		{
+			"imagePath": "content/packs/Anomali_ThreatStream/AnomaliThreatStreamv2_image.png",
+			"name": "Anomali ThreatStream v2"
+		},
+		{
+			"imagePath": "content/packs/ThreatConnect/ThreatConnect_image.png",
+			"name": "ThreatConnect"
+		},
+		{
+			"imagePath": "content/packs/ThreatConnect/ThreatConnect_image.png",
+			"name": "ThreatConnect (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/ThreatConnect/ThreatConnectv2_image.png",
+			"name": "ThreatConnect v2"
+		},
+		{
+			"imagePath": "content/packs/URLHaus/URLhaus_image.png",
+			"name": "URLhaus"
+		},
+		{
+			"imagePath": "content/packs/Sixgill-Darkfeed/Sixgill_DVE_Feed_image.png",
+			"name": "Cybersixgill DVE Feed Threat Intelligence"
+		},
+		{
+			"imagePath": "content/packs/Sixgill-Darkfeed/Sixgill_Darkfeed_Enrichment_image.png",
+			"name": "Sixgill DarkFeed Enrichment"
+		},
+		{
+			"imagePath": "content/packs/Sixgill-Darkfeed/Sixgill_Darkfeed_image.png",
+			"name": "Sixgill DarkFeed Threat Intelligence"
+		},
+		{
+			"imagePath": "content/packs/illuminate/Analyst1_image.png",
+			"name": "Analyst1"
+		},
+		{
+			"imagePath": "content/packs/illuminate/illuminate_image.png",
+			"name": "illuminate"
+		},
+		{
+			"imagePath": "content/packs/illuminate/illuminate_image.png",
+			"name": "illuminate (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/iDefense/iDefense_image.png",
+			"name": "iDefense"
+		},
+		{
+			"imagePath": "content/packs/iDefense/iDefense_image.png",
+			"name": "iDefense (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/iDefense/iDefenseFeed_image.png",
+			"name": "iDefense Feed"
+		},
+		{
+			"imagePath": "content/packs/iDefense/iDefense_v2_image.png",
+			"name": "iDefense v2"
+		},
+		{
+			"imagePath": "content/packs/GoogleChronicleBackstory/GoogleChronicleBackstory_image.png",
+			"name": "Chronicle"
+		},
+		{
+			"imagePath": "content/packs/OpenPhish/OpenPhish_image.png",
+			"name": "OpenPhish (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/OpenPhish/OpenPhish_v2_image.png",
+			"name": "OpenPhish v2"
+		},
+		{
+			"imagePath": "content/packs/Cisco-umbrella/CiscoUmbrellaInvestigate_image.png",
+			"name": "Cisco Umbrella Investigate"
+		},
+		{
+			"imagePath": "content/packs/GoogleSafeBrowsing/GoogleSafeBrowsing_image.png",
+			"name": "Google Safe Browsing"
+		},
+		{
+			"imagePath": "content/packs/GoogleSafeBrowsing/GoogleSafeBrowsing_image.png",
+			"name": "Google Safe Browsing (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/GoogleSafeBrowsing/GoogleSafeBrowsingv2_image.png",
+			"name": "Google Safe Browsing v2"
+		},
+		{
+			"imagePath": "content/packs/Alexa/AlexaRankIndicator_image.png",
+			"name": "Alexa Rank Indicator"
+		},
+		{
+			"imagePath": "content/packs/Maltiverse/Maltiverse_image.png",
+			"name": "Maltiverse"
+		},
+		{
+			"imagePath": "content/packs/ThreatExchange/ThreatExchange_image.png",
+			"name": "ThreatExchange"
+		},
+		{
+			"imagePath": "content/packs/ThreatExchange/ThreatExchange_image.png",
+			"name": "ThreatExchange (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/ThreatExchange/ThreatExchangev2_image.png",
+			"name": "ThreatExchange v2"
+		},
+		{
+			"imagePath": "content/packs/Lastline/Lastlinev2_image.png",
+			"name": "Lastline v2"
+		},
+		{
+			"imagePath": "content/packs/Expanse/Expanse_image.png",
+			"name": "Expanse"
+		},
+		{
+			"imagePath": "content/packs/Expanse/Expanse_image.png",
+			"name": "Expanse (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/TruSTAR/TruSTAR_image.png",
+			"name": "TruSTAR"
+		},
+		{
+			"imagePath": "content/packs/TruSTAR/TruSTAR_image.png",
+			"name": "TruSTAR (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/TruSTAR/TruSTARv2_image.png",
+			"name": "TruSTAR v2"
+		},
+		{
+			"imagePath": "content/packs/CrowdStrikeMalquery/CrowdStrikeMalquery_image.png",
+			"name": "CrowdStrike Malquery"
+		},
+		{
+			"imagePath": "content/packs/CyberTotal/CyberTotal_image.png",
+			"name": "CyberTotal"
+		},
+		{
+			"imagePath": "content/packs/DomainTools/DomainTools_image.png",
+			"name": "DomainTools"
+		},
+		{
+			"imagePath": "content/packs/Recorded_Future/RecordedFuture_image.png",
+			"name": "Recorded Future"
+		},
+		{
+			"imagePath": "content/packs/Recorded_Future/RecordedFuture_image.png",
+			"name": "Recorded Future (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/Flashpoint/Flashpoint_image.png",
+			"name": "Flashpoint"
+		},
+		{
+			"imagePath": "content/packs/Polygon/Group-IBTDSPolygon_image.png",
+			"name": "Group-IB TDS Polygon"
+		},
+		{
+			"imagePath": "content/packs/ReversingLabs_Titanium_Cloud/ReversingLabsTitaniumCloud_image.png",
+			"name": "ReversingLabs Titanium Cloud"
+		},
+		{
+			"imagePath": "content/packs/ReversingLabs_Titanium_Cloud/ReversingLabsTitaniumCloud_image.png",
+			"name": "ReversingLabs TitaniumCloud"
+		},
+		{
+			"imagePath": "content/packs/ReversingLabs_A1000/ReversingLabsA1000_image.png",
+			"name": "ReversingLabs A1000"
+		},
+		{
+			"imagePath": "content/packs/DomainTools_Iris/DomainToolsIris_image.png",
+			"name": "DomainTools Iris"
+		},
+		{
+			"imagePath": "content/packs/APIVoid/APIVoid_image.png",
+			"name": "APIVoid"
+		},
+		{
+			"imagePath": "content/packs/ExpanseV2/FeedExpanse_image.png",
+			"name": "Expanse Expander Feed"
+		},
+		{
+			"imagePath": "content/packs/ExpanseV2/ExpanseV2_image.png",
+			"name": "Expanse v2"
+		},
+		{
+			"imagePath": "content/packs/Zimperium/Zimperium_image.png",
+			"name": "Zimperium"
+		},
+		{
+			"imagePath": "content/packs/PolySwarm/PolySwarmV2_image.png",
+			"name": "PolySwarm"
+		},
+		{
+			"imagePath": "content/packs/PolySwarm/PolySwarm_image.png",
+			"name": "PolySwarm"
+		},
+		{
+			"imagePath": "content/packs/PolySwarm/PolySwarm_image.png",
+			"name": "PolySwarm (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/ThreatMiner/ThreatMiner_image.png",
+			"name": "ThreatMiner"
+		},
+		{
+			"imagePath": "content/packs/Cofense-Intelligence/CofenseIntelligence_image.png",
+			"name": "Cofense Intelligence"
+		},
+		{
+			"imagePath": "content/packs/Shodan/Shodan_v2_image.png",
+			"name": "Shodan v2"
+		},
+		{
+			"imagePath": "content/packs/Threat_Crowd/ThreatCrowd_image.png",
+			"name": "Threat Crowd"
+		},
+		{
+			"imagePath": "content/packs/Threat_Crowd/ThreatCrowd_image.png",
+			"name": "Threat Crowd (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/Threat_Crowd/ThreatCrowd_v2_image.png",
+			"name": "Threat Crowd v2"
+		},
+		{
+			"imagePath": "content/packs/ThreatQ/ThreatQv2_image.png",
+			"name": "ThreatQ v2"
+		},
+		{
+			"imagePath": "content/packs/ThreatQ/ThreatQ_Beta_image.png",
+			"name": "ThreatQ_Beta"
+		},
+		{
+			"imagePath": "content/packs/SlashNextPhishingIncidentResponse/SlashNextPhishingIncidentResponse_image.png",
+			"name": "SlashNext Phishing Incident Response"
+		},
+		{
+			"imagePath": "content/packs/MaxMind_GeoIP2/MaxMindGeoIP2_image.png",
+			"name": "MaxMind GeoIP2"
+		},
+		{
+			"imagePath": "content/packs/PaloAltoNetworks_Threat_Vault/PaloAltoNetworksThreatVault_image.png",
+			"name": "Palo Alto Networks Threat Vault"
+		},
+		{
+			"imagePath": "content/packs/TCPIPUtils/TCPIPUtils_image.png",
+			"name": "TCPIPUtils"
+		},
+		{
+			"imagePath": "content/packs/TCPIPUtils/TCPIPUtils_image.png",
+			"name": "TCPIPUtils (Deprecated)"
+		},
+		{
+			"imagePath": "content/packs/McAfee-TIE/McAfeeThreatIntelligenceExchange_image.png",
+			"name": "McAfee Threat Intelligence Exchange"
+		},
+		{
+			"imagePath": "content/packs/EclecticIQ/EclecticIQPlatform_image.png",
+			"name": "EclecticIQ Platform"
+		},
+		{
+			"imagePath": "content/packs/isight/FireEyeiSIGHT_image.png",
+			"name": "FireEye iSIGHT"
+		},
+		{
+			"imagePath": "content/packs/Pwned/HaveIBeenPwned%3FV2_image.png",
+			"name": "Have I Been Pwned? v2"
+		},
+		{
+			"imagePath": "content/packs/CheckPhish/CheckPhish_image.png",
+			"name": "CheckPhish"
+		},
+		{
+			"imagePath": "content/packs/Ipstack/Ipstack_image.png",
+			"name": "ipstack"
+		},
+		{
+			"imagePath": "content/packs/AwakeSecurity/AwakeSecurity_image.png",
+			"name": "Awake Security"
+		},
+		{
+			"imagePath": "content/packs/Symantec_Deepsight/SymantecDeepsightIntelligence_image.png",
+			"name": "Symantec Deepsight Intelligence (Beta)"
+		},
+		{
+			"imagePath": "content/packs/IsItPhishing/IsItPhishing_image.png",
+			"name": "IsItPhishing"
+		},
+		{
+			"imagePath": "content/packs/Spamcop/Spamcop_image.png",
+			"name": "Spamcop"
+		},
+		{
+			"imagePath": "content/packs/Synapse/Synapse_image.png",
+			"name": "Synapse"
+		},
+		{
+			"imagePath": "content/packs/Anomali_Enterprise/AnomaliEnterprise_image.png",
+			"name": "Anomali Match"
+		},
+		{
+			"imagePath": "content/packs/Pulsedive/Pulsedive_image.png",
+			"name": "Pulsedive"
+		},
+		{
+			"imagePath": "content/packs/Barracuda/BarracudaReputationBlockList-BRBL_image.png",
+			"name": "Barracuda Reputation Block List (BRBL)"
+		},
+		{
+			"imagePath": "content/packs/XMCyber/XMCyber_image.png",
+			"name": "XM Cyber"
+		},
+		{
+			"imagePath": "content/packs/GreyNoise/GreyNoise_image.png",
+			"name": "GreyNoise"
+		},
+		{
+			"imagePath": "content/packs/GreyNoise/GreyNoiseCommunity_image.png",
+			"name": "GreyNoise Community"
+		},
+		{
+			"imagePath": "content/packs/RSTCloud/RSTCloud-ThreatFeedAPI_image.png",
+			"name": "RST Cloud - Threat Feed API"
+		},
+		{
+			"imagePath": "content/packs/CTIX/CTIX_image.png",
+			"name": "Cyware Threat Intelligence eXchange"
+		},
+		{
+			"imagePath": "content/packs/IPQualityScore/IPQualityScore_image.png",
+			"name": "IPQualityScore"
+		},
+		{
+			"imagePath": "content/packs/HostIo/HostIo_image.png",
+			"name": "HostIo"
+		}
+	],
+	"itemVersion": "1.1.8",
+	"keywords": [],
+	"legacy": true,
+	"name": "TIM - Indicator Auto-Processing",
+	"packID": "TIM_Processing",
+	"premium": false,
+	"previewOnly": false,
+	"price": 0,
+	"propagationLabels": [
+		"all"
+	],
+	"rawKeywords": null,
+	"rawTags": null,
+	"rawUseCases": null,
+	"readme": "Threat Intelligence is core to incident response. If you integrate it into your incident response workflow, you can then map external threat data to what’s happening internally.  As hundreds of thousands of indicators may be created or updated on a daily basis, Cortex XSOAR provides the automations that allow you to perform many tasks related to threat intelligence indicators.\nThe TIM - Indicator Auto-Processing pack includes playbooks that automate the processing of indicators for many use cases such as tagging, checking for existence in various exclusion or other lists of interest, running enrichment for specific indicators and preparing indicators if necessary for a manual review in case additional approval is required. This helps you quickly separate relevant indicators from irrelevant ones. \nWith this content pack, you can significantly reduce the time your threat intelligence analysts spend on reviewing hundreds of thousands of indicators by performing many pre-defined logics and processing tasks automatically.\n\n##### What does this pack do?\n\nThe playbooks included in this pack help you automate repetitive tasks associated with with the handling of indicators:\n\n- Check if indicators are related to internal exclusion lists such as business partners or other approved origin.\n- Validate CIDR indicator size in order not to approve or deny large CIDR ranges.\n- Create incidents for indicators that require additional analyst review and chain of approval.\n- Run additional enrichment for indicators ingested by specific feeds.\n- Check Whois to validate domains registrant and time of creation.\n- Check if an indicator with a tag of *organizational_external_ip* has been updated and keeps or removes the tag according to the results.\n- Process indicators against IP and CIDR lists.\n\n\n_For more information, visit our [Cortex XSOAR Developer Docs](https://xsoar.pan.dev/docs/reference/index)._\n",
+	"searchRank": 10,
+	"serverMaxVersion": "",
+	"serverMinVersion": "5.5.0",
+	"support": "xsoar",
+	"supportDetails": {
+		"email": "",
+		"url": "https://www.paloaltonetworks.com/cortex"
+	},
+	"tags": [
+		"TIM",
+		"Use Case"
+	],
+	"toServerVersion": "",
+	"updated": "2022-05-18T21:24:37Z",
+	"useCases": [
+		"Threat Intelligence Management"
+	],
+	"version": -1,
+	"versionInfo": "381353"
+}

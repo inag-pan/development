@@ -1,0 +1,55 @@
+args:
+- default: true
+  description: List to reverse
+  isArray: true
+  name: value
+  required: true
+comment: "Reverse a list\ne.g. [\"Mars\", \"Jupiter\", \"Saturn\"] =>  [\"Saturn\",
+  \"Jupiter\", \"Mars\"]\n\nThis is an example for entire-list transformer - it operates
+  the argument as a list  (note the \"entirelist\" tag)\n "
+commonfields:
+  id: ReverseList
+  version: -1
+contentitemexportablefields:
+  contentitemfields:
+    fromServerVersion: 5.0.0
+    itemVersion: 1.4.50
+    packID: CommonScripts
+    packPropagationLabels:
+    - all
+    propagationLabels: []
+    toServerVersion: ""
+dockerimage: demisto/python3:3.9.7.24076
+enabled: true
+engineinfo: {}
+name: ReverseList
+pswd: ""
+runas: DBotWeakRole
+runonce: false
+script: |2
+
+
+
+
+  def main():
+      value = demisto.args()["value"]
+
+      if isinstance(value, list):
+          res = value
+          res.reverse()
+      else:
+          res = value
+
+      demisto.results(res)
+
+
+  if __name__ in ('__main__', '__builtin__', 'builtins'):
+      main()
+scripttarget: 0
+subtype: python3
+system: true
+tags:
+- general
+- entirelist
+- transformer
+type: python

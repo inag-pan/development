@@ -1,0 +1,29 @@
+comment: Gets Demisto Log Bundle to war room
+commonfields:
+  id: DemistoLogsBundle
+  version: -1
+contentitemexportablefields:
+  contentitemfields:
+    fromServerVersion: 5.0.0
+    itemVersion: 1.1.7
+    packID: DemistoRESTAPI
+    packPropagationLabels:
+    - all
+    propagationLabels: []
+    toServerVersion: ""
+dependson:
+  must:
+  - demisto-api-download
+enabled: true
+engineinfo: {}
+name: DemistoLogsBundle
+pswd: ""
+runas: DBotWeakRole
+runonce: false
+script: |
+  return executeCommand('demisto-api-download', {uri: '/log/bundle'});
+scripttarget: 0
+system: true
+tags:
+- DemistoAPI
+type: javascript
