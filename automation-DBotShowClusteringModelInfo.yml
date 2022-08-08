@@ -27,19 +27,20 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 6.2.0
-    itemVersion: 1.13.40
+    itemVersion: 1.31.14
     packID: Base
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.9.8.24399
 engineinfo: {}
 name: DBotShowClusteringModelInfo
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('DBotShowClusteringModelInfo', 'start', __line__())
 
 
   # CONSTS
@@ -128,6 +129,8 @@ script: |2
 
   if __name__ in ['__main__', '__builtin__', 'builtins']:
       main()
+
+  register_module_line('DBotShowClusteringModelInfo', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
