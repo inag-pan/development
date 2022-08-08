@@ -1,0 +1,54 @@
+args:
+- description: The json to transform to a markdown table.
+  name: value
+  required: true
+- description: The markdown title.
+  name: title
+- description: A comma-separated list of table header values. Default will include
+    all available table headers.
+  name: headers
+comment: Accepts a json object and returns a markdown.
+commonfields:
+  id: JsonToTable
+  version: -1
+contentitemexportablefields:
+  contentitemfields:
+    fromServerVersion: 5.5.0
+    itemVersion: 1.4.50
+    packID: CommonScripts
+    packPropagationLabels:
+    - all
+    propagationLabels: []
+    toServerVersion: ""
+dockerimage: demisto/python3:3.9.7.24076
+enabled: true
+engineinfo: {}
+name: JsonToTable
+pswd: ""
+runas: DBotWeakRole
+runonce: false
+script: |2
+
+
+
+
+  def main():
+      args = demisto.args()
+      value = args.get('value')
+      title = args.get('title')
+      headers = argToList(args.get('headers'))
+      markdown = tableToMarkdown(title, value, headers=headers)
+
+      return_results(markdown)
+
+
+  if __name__ in ['__builtin__', 'builtins']:
+      main()
+scripttarget: 0
+subtype: python3
+system: true
+tags:
+- transformer
+- entirelist
+- general
+type: python
