@@ -10,7 +10,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -22,7 +22,8 @@ name: Sleep
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: wait(parseInt(args.seconds));
+script: |
+  wait(parseInt(args.seconds));
 scripttarget: 0
 system: true
 tags:
