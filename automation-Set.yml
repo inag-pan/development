@@ -30,7 +30,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -42,7 +42,7 @@ name: Set
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   var ec = {};
   var value;
   try {
