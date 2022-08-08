@@ -29,13 +29,13 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.13.40
+    itemVersion: 1.31.14
     packID: Base
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/ml:1.0.0.23334
+dockerimage: demisto/ml:1.0.0.30541
 enabled: true
 engineinfo: {}
 name: GetMLModelEvaluation
@@ -54,6 +54,7 @@ pswd: ""
 runas: DBotWeakRole
 runonce: false
 script: |
+  register_module_line('GetMLModelEvaluation', 'start', __line__())
   import numpy as np
   import pandas as pd
   from sklearn.metrics import precision_score, recall_score, precision_recall_curve
@@ -306,7 +307,7 @@ script: |
                   for class_ in labels:
                       i = np.argmax(class_to_arrs[class_]['thresholds'] >= threshold)  # type: ignore
                       threshold_precision_for_class = class_to_arrs[class_]['precisions'][i]
-                      threshold_precision = min(threshold_precision, threshold_precision_for_class)
+                      threshold_precision = min(threshold_precision, threshold_precision_for_class)  # type: ignore
                       if threshold_precision_for_class >= target_unified_precision:
                           legal_threshold_for_all_classes = True
                       else:
@@ -402,6 +403,8 @@ script: |
 
   if __name__ in ['__main__', '__builtin__', 'builtins']:
       main()
+
+  register_module_line('GetMLModelEvaluation', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
