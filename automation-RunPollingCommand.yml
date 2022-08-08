@@ -13,33 +13,38 @@ args:
   name: additionalPollingCommandArgNames
 - description: Commas separated arguments values of the polling command
   name: additionalPollingCommandArgValues
-comment: Runs a specified polling command one time. This is useful for initiating
-  a local playbook context before running a polling scheduled task.
+comment: |-
+  Runs a specified polling command one time. This is useful for initiating a local playbook context before running a polling scheduled task.
+
+  This automation runs using the default Limited User role, unless you explicitly change the permissions.
+  For more information, see the section about permissions here:
+  https://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-2/cortex-xsoar-admin/playbooks/automations.html
 commonfields:
   id: RunPollingCommand
   version: -1
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python:2.7.18.24066
+dockerimage: demisto/python:2.7.18.27799
 enabled: true
 engineinfo: {}
 name: RunPollingCommand
 pswd: ""
-runas: DBotRole
+runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('RunPollingCommand', 'start', __line__())
 
 
 
 
-  def prepare_arg_dict(ids_arg_name, ids, additional_arg_names, additional_arg_values):
+  def prepare_arg_dict(ids_arg_name, ids, additional_arg_names, additional_arg_values, using_instance=''):
       if not isinstance(ids, list):
           ids = [ids]
       for i, val in enumerate(ids):
@@ -56,11 +61,13 @@ script: |2
 
       args = dict(zip(args_names, args_values))
       args[ids_arg_name] = ','.join(argToList(ids))
+      if using_instance:
+          args['using'] = str(using_instance)
 
       return args
 
 
-  def main(args):
+  def main(args):     # pragma: no cover
       try:
           encoded_id = args.get('ids').encode('utf-8') if type(args.get('ids')) != int else args.get('ids')
 
@@ -70,10 +77,14 @@ script: |2
           additional_polling_command_arg_values = args.get('additionalPollingCommandArgValues').encode('utf-8') if type(
               args.get('additionalPollingCommandArgValues')) != int else args.get('additionalPollingCommandArgValues')
 
+          using = args.get('using', '')
+          using_instance = using.encode('utf-8') if type(using) != int and using else using
+
           args = prepare_arg_dict(args.get('pollingCommandArgName'),
                                   encoded_id,
                                   additional_polling_command_arg_names,
                                   additional_polling_command_arg_values,
+                                  using_instance
                                   )
 
           demisto.results(demisto.executeCommand(demisto.getArg('pollingCommand'), args))
@@ -83,6 +94,8 @@ script: |2
 
   if __name__ in ('__main__', '__builtin__', 'builtins'):
       main(demisto.args())
+
+  register_module_line('RunPollingCommand', 'end', __line__())
 scripttarget: 0
 subtype: python2
 system: true
