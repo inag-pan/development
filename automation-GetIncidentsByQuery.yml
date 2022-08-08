@@ -1,7 +1,7 @@
 args:
 - description: Additional text by which to query incidents.
   name: query
-- description: A comma-separatetd list of incident types by which to filter.
+- description: A comma-separated list of incident types by which to filter.
   name: incidentTypes
 - description: 'The start date by which to filter incidents. Date format will be the
     same as in the incidents query page, for example: "3 days ago", ""2019-01-01T00:00:00
@@ -11,8 +11,8 @@ args:
     same as in the incidents query page, for example: "3 days ago", ""2019-01-01T00:00:00
     +0200").'
   name: toDate
-- defaultValue: "3000"
-  description: The maximum number of incidents to fetch. The default value is 3000.
+- defaultValue: "500"
+  description: The maximum number of incidents to fetch.
   name: limit
 - auto: PREDEFINED
   defaultValue: "false"
@@ -43,25 +43,29 @@ args:
   - pickle
 - description: A comma-separated list of fields in the object to poplulate.
   name: populateFields
-- defaultValue: "500"
+- defaultValue: "100"
   description: Incidents query batch size
   name: pageSize
-comment: Gets a list of incident objects and the associated incident outputs that
-  match the specified query and filters. The results are returned in a structured
-  data file.
+comment: |-
+  Gets a list of incident objects and the associated incident outputs that
+  match the specified query and filters. The results are returned in a structured data file.
+
+  This automation runs using the default Limited User role, unless you explicitly change the permissions.
+  For more information, see the section about permissions here:
+  https://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-5/cortex-xsoar-admin/playbooks/automations.html
 commonfields:
   id: GetIncidentsByQuery
   version: -1
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.13.40
+    itemVersion: 1.31.14
     packID: Base
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.10.4.30607
 engineinfo: {}
 name: GetIncidentsByQuery
 outputs:
@@ -72,9 +76,10 @@ outputs:
   description: The output file format.
   type: String
 pswd: ""
-runas: DBotRole
+runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('GetIncidentsByQuery', 'start', __line__())
 
 
   import pickle
@@ -82,7 +87,7 @@ script: |2
   from dateutil import parser
 
   PREFIXES_TO_REMOVE = ['incident.']
-  PAGE_SIZE = int(demisto.args().get('pageSize', 500))
+  PAGE_SIZE = int(demisto.args().get('pageSize', 100))
   PYTHON_MAGIC = "$$##"
 
 
@@ -182,11 +187,11 @@ script: |2
       if is_demisto_version_ge('6.2.0') and len(fields_to_populate) > 0:
           args['populateFields'] = get_fields_to_populate_arg(fields_to_populate)
       res = demisto.executeCommand("getIncidents", args)
-      if res[0]['Contents'].get('data') is None:
-          return []
       if is_error(res):
           error_message = get_error(res)
           raise Exception("Failed to get incidents by query args: %s error: %s" % (args, error_message))
+      if res[0]['Contents'].get('data') is None:
+          return []
       incidents = res[0]['Contents'].get('data') or []
 
       parsed_incidents = []
@@ -248,6 +253,7 @@ script: |2
 
 
   def get_comma_sep_list(value):
+      value = value.replace('|', ',')
       return map(lambda x: x.strip(), value.split(","))
 
 
@@ -316,6 +322,8 @@ script: |2
   if __name__ in ['builtins', '__main__']:
       entry = main()
       demisto.results(entry)
+
+  register_module_line('GetIncidentsByQuery', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
