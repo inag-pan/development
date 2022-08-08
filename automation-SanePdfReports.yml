@@ -22,6 +22,9 @@ args:
 - defaultValue: "false"
   description: flag to use headers in the report or not
   name: disableHeaders
+- defaultValue: "300"
+  description: table text max length
+  name: tableTextMaxLength
 comment: Parse Sane-json-reports and export them as pdf files (used internally).
 commonfields:
   id: SanePdfReports
@@ -29,21 +32,22 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.5.0
-    itemVersion: 1.13.40
+    itemVersion: 1.31.14
     packID: Base
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
 deprecated: true
-dockerimage: demisto/sane-pdf-reports:1.0.0.24026
+dockerimage: demisto/sane-pdf-reports:1.0.0.32268
 enabled: true
 engineinfo: {}
 name: SanePdfReports
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('SanePdfReports', 'start', __line__())
 
 
   import traceback
@@ -68,6 +72,8 @@ script: |2
   MD_HTTP_PORT = 10888
   SERVER_OBJECT = None
   MD_IMAGE_SUPPORT_MIN_VER = '6.5'
+  TABLE_TEXT_MAX_LENGTH_SUPPORT_MIN_VER = '7.0'
+  TENANT_ACCOUNT_NAME = get_tenant_account_name()
 
 
   def random_string(size=10):
@@ -119,7 +125,12 @@ script: |2
       class fileHandler(http.server.BaseHTTPRequestHandler):
           def do_GET(self):
               demisto.debug(f'Handling MD Image request {self.path}')
-              if not self.path.startswith(MD_IMAGE_PATH):
+              if TENANT_ACCOUNT_NAME:
+                  markdown_path_prefix = f"/{TENANT_ACCOUNT_NAME}{MD_IMAGE_PATH}"
+              else:
+                  markdown_path_prefix = MD_IMAGE_PATH
+
+              if not self.path.startswith(markdown_path_prefix):
                   # not a standard xsoar markdown image endpoint
                   self.send_response(400)
                   self.flush_headers()
@@ -170,6 +181,7 @@ script: |2
           headerRightImage = demisto.args().get('demistoLogo', '')
           pageSize = demisto.args().get('paperSize', 'letter')
           disableHeaders = demisto.args().get('disableHeaders', '')
+          tableTextMaxLength = demisto.args().get('tableTextMaxLength', '300')
 
           # Note: After headerRightImage the empty one is for legacy argv in server.js
           extra_cmd = f"{orientation} {resourceTimeout} {reportType} " + \
@@ -177,7 +189,7 @@ script: |2
                       f'"{pageSize}" "{disableHeaders}"'
 
           isMDImagesSupported = is_demisto_version_ge(MD_IMAGE_SUPPORT_MIN_VER)
-          if isMDImagesSupported:
+          if isMDImagesSupported:  # pragma: no cover
               # start the server in a background thread
               demisto.debug('Starting markdown artifacts http server...')
               threading.Thread(target=startServer).start()
@@ -193,6 +205,11 @@ script: |2
               # add md server address
               mdServerAddress = f'http://localhost:{MD_HTTP_PORT}'
               extra_cmd += f' "" "" "{mdServerAddress}"'
+
+              isTableTextMaxLengthSupported = is_demisto_version_ge(TABLE_TEXT_MAX_LENGTH_SUPPORT_MIN_VER)
+
+              if isTableTextMaxLengthSupported:
+                  extra_cmd += f' {tableTextMaxLength}'
 
           # Generate a random input file so we won't override on concurrent usage
           input_id = random_string()
@@ -216,7 +233,7 @@ script: |2
               f' disableHeaders="{disableHeaders}"'
 
           if isMDImagesSupported:
-              params += f', mdServerAddress="{mdServerAddress}"'
+              params += f', markdownArtifactsServerAddress="{mdServerAddress}"'
 
           LOG(f"Sane-pdf parameters: {params}]")
           cmd_string = " ".join(cmd)
@@ -254,6 +271,8 @@ script: |2
 
   if __name__ in ['__main__', '__builtin__', 'builtins']:
       main()
+
+  register_module_line('SanePdfReports', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
