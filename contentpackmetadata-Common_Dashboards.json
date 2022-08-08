@@ -1,0 +1,101 @@
+{
+	"author": "Cortex XSOAR",
+	"authorImage": "content/packs/Base/Author_image.png",
+	"beta": false,
+	"categories": [
+		"Utilities"
+	],
+	"certification": "certified",
+	"contentItemTypes": [
+		"dashboard"
+	],
+	"contentItems": {
+		"automation": null,
+		"classifier": null,
+		"dashboard": [
+			{
+				"name": "Incidents"
+			},
+			{
+				"name": "Troubleshooting Playbooks"
+			},
+			{
+				"name": "My Dashboard"
+			},
+			{
+				"name": "SLA"
+			},
+			{
+				"name": "Cost Optimization Playbooks"
+			},
+			{
+				"name": "Troubleshooting Instances"
+			},
+			{
+				"name": "Cost Optimization Instances"
+			}
+		],
+		"incidentfield": null,
+		"incidenttype": null,
+		"indicatorfield": null,
+		"integration": null,
+		"layoutscontainer": null,
+		"playbook": null,
+		"report": null,
+		"reputation": null,
+		"widget": null
+	},
+	"created": "2020-11-09T18:44:34Z",
+	"currentVersion": "1.1.2",
+	"dependencies": {
+		"Base": {
+			"author": "Cortex XSOAR",
+			"certification": "certified",
+			"mandatory": true,
+			"minVersion": "1.13.38",
+			"name": "Base"
+		}
+	},
+	"deprecated": false,
+	"description": "Frequently used dashboards pack.",
+	"downloads": 1861,
+	"eulaLink": "https://github.com/demisto/content/blob/master/LICENSE",
+	"fromServerVersion": "5.0.0",
+	"general": [
+		"generalFieldCertified",
+		"generalFieldByCortexXSOAR",
+		"generalFieldFree",
+		"generalFieldSupportIncluded"
+	],
+	"id": "CommonDashboards",
+	"installMessage": "",
+	"integrations": [],
+	"itemVersion": "1.1.2",
+	"keywords": [],
+	"legacy": true,
+	"name": "Common Dashboards",
+	"packID": "CommonDashboards",
+	"premium": false,
+	"previewOnly": false,
+	"price": 0,
+	"propagationLabels": [
+		"all"
+	],
+	"rawKeywords": null,
+	"rawTags": null,
+	"rawUseCases": null,
+	"searchRank": 10,
+	"serverMaxVersion": "",
+	"serverMinVersion": "5.0.0",
+	"support": "xsoar",
+	"supportDetails": {
+		"email": "",
+		"url": "https://www.paloaltonetworks.com/cortex"
+	},
+	"tags": [],
+	"toServerVersion": "",
+	"updated": "2022-06-08T21:40:11Z",
+	"useCases": [],
+	"version": -1,
+	"versionInfo": "1790547"
+}
