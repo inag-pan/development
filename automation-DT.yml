@@ -12,30 +12,34 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python:2.7.18.24066
+dockerimage: demisto/python3:3.9.8.24399
 enabled: true
 engineinfo: {}
 name: DT
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('DT', 'start', __line__())
 
 
 
-  value = demisto.args()["value"]
-  dt = demisto.args()["dt"]
+  args = demisto.args()
+  value = args["value"]
+  dt = args["dt"]
 
   res = demisto.dt(value, dt)
-  demisto.results(res)
+  return_results(encode_string_results(res))
+
+  register_module_line('DT', 'end', __line__())
 scripttarget: 0
-subtype: python2
+subtype: python3
 system: true
 tags:
 - transformer
