@@ -16,13 +16,13 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.9.8.24399
 enabled: true
 engineinfo: {}
 name: ConvertDatetoUTC
@@ -36,7 +36,8 @@ outputs:
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('ConvertDatetoUTC', 'start', __line__())
 
 
   import pytz
@@ -85,6 +86,8 @@ script: |2
 
   if __name__ in ('__main__', '__builtin__', 'builtins'):
       main()
+
+  register_module_line('ConvertDatetoUTC', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
