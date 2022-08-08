@@ -1,11 +1,12 @@
-comment: Search for a binary on an endpoint using Carbon Black
+comment: Deprecated. No available replacement. Search for a binary on an endpoint
+  using Carbon Black
 commonfields:
   id: BinarySearchPy
   version: -1
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -14,7 +15,8 @@ contentitemexportablefields:
 dependson:
   must:
   - cb-process
-dockerimage: demisto/python:2.7.18.24066
+deprecated: true
+dockerimage: demisto/python:2.7.18.24398
 engineinfo: {}
 name: BinarySearchPy
 pswd: ""
