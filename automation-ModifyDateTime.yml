@@ -17,7 +17,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -30,7 +30,8 @@ name: ModifyDateTime
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('ModifyDateTime', 'start', __line__())
 
 
 
@@ -42,6 +43,7 @@ script: |2
   def apply_variation(original_datetime: datetime, variation: str) -> Optional[datetime]:
       try:
           new_time = dateparser.parse(variation, settings={'RELATIVE_BASE': original_datetime})
+          assert new_time is not None, f'could not parse {variation}'
           new_time = new_time.replace(tzinfo=original_datetime.tzinfo)
       except Exception as err:
           return_error(f"Error adding variation to the date / time - {err}")
@@ -58,7 +60,7 @@ script: |2
           return_error(f"Error with input date / time - {err}")
 
       variation = args.get('variation')
-      new_time = apply_variation(original_datetime, variation)
+      new_time = apply_variation(original_datetime, variation)  # type: ignore
       if isinstance(new_time, datetime):
           return_results(new_time.isoformat())
       else:
@@ -67,6 +69,8 @@ script: |2
 
   if __name__ in ('__main__', 'builtin', 'builtins'):
       main()
+
+  register_module_line('ModifyDateTime', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
