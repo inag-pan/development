@@ -2,7 +2,9 @@ args:
 - default: true
   description: The date to use in the object
   name: date
-- description: The date format for the result, can be ISO/GMT/UTC/Locale/Date/Year/Month/Day/DayInWeek/Hours
+- description: The date format for the result, can be ISO/GMT/UTC/Locale/Date/Year/Month/Day/DayInWeek/Hours.
+    Note that the response will start from 0, E.G. if the current month is October
+    (the 10th month) the result will be 9.
   name: dateFormat
 - description: prefix the keys in the context for the results
   name: contextKey
@@ -24,7 +26,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -41,7 +43,7 @@ outputs:
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   var d = new Date();
   if (args.date){
       if (args.date.length > 0){
