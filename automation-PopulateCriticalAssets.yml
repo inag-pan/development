@@ -12,7 +12,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -25,7 +25,8 @@ name: PopulateCriticalAssets
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('PopulateCriticalAssets', 'start', __line__())
 
 
 
@@ -49,6 +50,8 @@ script: |2
   val = json.dumps({field_cli_name: current_value})
 
   demisto.results(demisto.executeCommand("setIncident", {'customFields': val}))
+
+  register_module_line('PopulateCriticalAssets', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
