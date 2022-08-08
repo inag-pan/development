@@ -12,20 +12,21 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.5.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.9.8.24399
 enabled: true
 engineinfo: {}
 name: ExtractAttackPattern
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('ExtractAttackPattern', 'start', __line__())
 
 
 
@@ -35,12 +36,15 @@ script: |2
   requests.packages.urllib3.disable_warnings()
 
 
+  def get_mitre_results(items):
+      return execute_command('mitre-get-indicator-name', {'attack_ids': items})
+
+
   def is_valid_attack_pattern(items) -> list:
 
       try:
-          results = demisto.executeCommand('mitre-get-indicator-name', {'attack_ids': items})
-          list_contents = results[2]['Contents']
-          values = [content.get('value') for content in list_contents]
+          results = get_mitre_results(items)
+          values = [content.get('value') for content in results]
           return values if values else []
 
       except ValueError as e:
@@ -69,6 +73,8 @@ script: |2
 
   if __name__ in ("__builtin__", "builtins"):
       main()
+
+  register_module_line('ExtractAttackPattern', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
