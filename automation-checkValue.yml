@@ -11,7 +11,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -23,7 +23,7 @@ name: checkValue
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   //check if value is provided, otherwise return false
   //needed for custom fields which if not set initially will be null
   return (args.value) ? args.value : false;

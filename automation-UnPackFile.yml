@@ -8,7 +8,7 @@ args:
     war room.
   name: lastPackedFileInWarroom
 comment: |-
-  UnPack a file using fileName or entryID to specify a file. Files unpacked will be pushed to the war room and names will be pushed to the context.
+  Deprecated. Use the UnzipFile script instead. UnPack a file using fileName or entryID to specify a file. Files unpacked will be pushed to the war room and names will be pushed to the context.
   supported types are:
   7z (.7z), ACE (.ace), ALZIP (.alz), AR (.a), ARC (.arc), ARJ (.arj), BZIP2 (.bz2), CAB (.cab), compress (.Z), CPIO (.cpio), DEB (.deb), DMS (.dms), GZIP (.gz), LRZIP (.lrz), LZH (.lha, .lzh), LZIP (.lz), LZMA (.lzma), LZOP (.lzo), RPM (.rpm), RAR (.rar), RZIP (.rz), TAR (.tar), XZ (.xz), ZIP (.zip, .jar) and ZOO (.zoo)
 commonfields:
@@ -17,12 +17,13 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
+deprecated: true
 dockerimage: demisto/unrar:1.4
 enabled: true
 engineinfo: {}
@@ -34,6 +35,7 @@ pswd: ""
 runas: DBotWeakRole
 runonce: false
 script: |
+  register_module_line('UnPackFile', 'start', __line__())
   import os
   from os.path import isdir, isfile
 
@@ -142,6 +144,8 @@ script: |
                                                 files_dic.items()])
           })
       demisto.results(results)
+
+  register_module_line('UnPackFile', 'end', __line__())
 scripttarget: 0
 subtype: python2
 system: true

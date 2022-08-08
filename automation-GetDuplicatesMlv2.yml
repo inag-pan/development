@@ -67,13 +67,17 @@ comment: |-
   Deprecated. Use the "PhishingDedupPreprocessingRule" script instead.
   Find duplicate incidents candidates.
   Using machine learning techniques with pre-defined data (can also use data from the local environment), this script takes into consideration different features such as: labels comparison, email labels (relevant for phishing), incident time difference and shared indicators, which can be customized by the arguments.
+
+  This automation runs using the default Limited User role, unless you explicitly change the permissions.
+  For more information, see the section about permissions here:
+  https://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-2/cortex-xsoar-admin/playbooks/automations.html
 commonfields:
   id: GetDuplicatesMlv2
   version: -1
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -100,19 +104,20 @@ outputs:
   description: Similar incident name.
   type: string
 pswd: ""
-runas: DBotRole
+runas: DBotWeakRole
 runonce: true
 script: |
+  register_module_line('GetDuplicatesMlv2', 'start', __line__())
   from sklearn import impute
 
 
 
   import collections
   import re
-  import dateutil.parser
+  import dateutil.parser  # type: ignore[import]
   import pickle
   import ipaddress
-  import tldextract
+  import tldextract  # type: ignore
   import editdistance
   import zlib
   from rfc822 import parseaddr  # type:ignore
@@ -878,6 +883,8 @@ script: |
   # python2 uses __builtin__ python3 uses builtins
   if __name__ == "__builtin__" or __name__ == "builtins":
       main()
+
+  register_module_line('GetDuplicatesMlv2', 'end', __line__())
 scripttarget: 0
 subtype: python2
 system: true

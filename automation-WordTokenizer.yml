@@ -36,7 +36,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -53,7 +53,8 @@ outputs:
 pswd: ""
 runas: DBotWeakRole
 runonce: true
-script: |2
+script: |
+  register_module_line('WordTokenizer', 'start', __line__())
 
 
   import nltk
@@ -131,6 +132,8 @@ script: |2
   # python2 uses __builtin__ python3 uses builtins
   if __name__ == "__builtin__" or __name__ == "builtins":
       main()
+
+  register_module_line('WordTokenizer', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true

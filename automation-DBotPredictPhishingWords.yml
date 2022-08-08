@@ -88,13 +88,13 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.13.40
+    itemVersion: 1.31.14
     packID: Base
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/ml:1.0.0.23334
+dockerimage: demisto/ml:1.0.0.32340
 engineinfo: {}
 name: DBotPredictPhishingWords
 outputs:
@@ -119,6 +119,7 @@ pswd: ""
 runas: DBotWeakRole
 runonce: true
 script: |
+  register_module_line('DBotPredictPhishingWords', 'start', __line__())
   # pylint: disable=no-member
 
 
@@ -369,6 +370,8 @@ script: |
 
   if __name__ in ['__main__', '__builtin__', 'builtins']:
       demisto.results(main())
+
+  register_module_line('DBotPredictPhishingWords', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true

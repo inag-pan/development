@@ -13,22 +13,15 @@
 	"contentItems": {
 		"automation": [
 			{
-				"description": "Copies a file from this incident to the specified incident. The file is recorded as an entry in the specified incident’s War Room.",
-				"name": "DemistoUploadFileV2",
+				"description": "Groups all tasks for a specific incident according to the task headers (titles).",
+				"name": "GetTasksWithSections",
 				"tags": [
-					"DemistoAPI"
+					"Utility"
 				]
 			},
 			{
-				"description": "Gets Demisto Log Bundle to war room",
-				"name": "DemistoLogsBundle",
-				"tags": [
-					"DemistoAPI"
-				]
-			},
-			{
-				"description": "Link two or more incidents",
-				"name": "DemistoLinkIncidents",
+				"description": "Send invitation to join Demisto",
+				"name": "DemistoSendInvite",
 				"tags": [
 					"DemistoAPI"
 				]
@@ -41,29 +34,29 @@
 				]
 			},
 			{
-				"description": "Get all tasks for specific incident by the given state.",
-				"name": "DemistoGetIncidentTasksByState",
+				"description": "Gets Demisto Log Bundle to war room",
+				"name": "DemistoLogsBundle",
 				"tags": [
-					"Utility"
+					"DemistoAPI"
 				]
 			},
 			{
-				"description": "Copies a file from this incident to the specified incident. The file is uploaded as an attachment to the specified incident’s Summary page, and recorded as an entry in the War Room.",
+				"description": "Deprecated. Use the *DemistoUploadFileV2* script instead. Copies a file from this incident to the specified incident. The file is uploaded as an attachment to the specified incident’s Summary page, and recorded as an entry in the War Room.",
 				"name": "DemistoUploadFileToIncident",
 				"tags": [
 					"DemistoAPI"
 				]
 			},
 			{
-				"description": "Deprecated. Use DemistoUploadFileV2 instead.",
-				"name": "DemistoUploadFile",
+				"description": "Link two or more incidents",
+				"name": "DemistoLinkIncidents",
 				"tags": [
 					"DemistoAPI"
 				]
 			},
 			{
-				"description": "Send invitation to join Demisto",
-				"name": "DemistoSendInvite",
+				"description": "Copies a file from this incident to the specified incident. The file is recorded as an entry in the specified incident’s War Room.",
+				"name": "DemistoUploadFileV2",
 				"tags": [
 					"DemistoAPI"
 				]
@@ -71,6 +64,27 @@
 			{
 				"description": "Create a new list",
 				"name": "DemistoCreateList",
+				"tags": [
+					"DemistoAPI"
+				]
+			},
+			{
+				"description": "Creates markdown tables based on information from the GetTasksWithSection command.",
+				"name": "SetIRProceduresMarkdown",
+				"tags": [
+					"dynamic-section"
+				]
+			},
+			{
+				"description": "Get all tasks for specific incident by the given state.",
+				"name": "DemistoGetIncidentTasksByState",
+				"tags": [
+					"Utility"
+				]
+			},
+			{
+				"description": "Deprecated. Use DemistoUploadFileV2 instead.",
+				"name": "DemistoUploadFile",
 				"tags": [
 					"DemistoAPI"
 				]
@@ -125,19 +139,19 @@
 		"widget": null
 	},
 	"created": "2020-07-15T08:20:12Z",
-	"currentVersion": "1.1.7",
+	"currentVersion": "1.3.0",
 	"dependencies": {
 		"Base": {
 			"author": "Cortex XSOAR",
 			"certification": "certified",
 			"mandatory": true,
-			"minVersion": "1.13.32",
+			"minVersion": "1.31.11",
 			"name": "Base"
 		}
 	},
 	"deprecated": false,
 	"description": "Use Demisto REST APIs",
-	"downloads": 6227,
+	"downloads": 18597,
 	"eulaLink": "https://github.com/demisto/content/blob/master/LICENSE",
 	"fromServerVersion": "5.0.0",
 	"general": [
@@ -154,7 +168,7 @@
 			"name": "Demisto REST API"
 		}
 	],
-	"itemVersion": "1.1.7",
+	"itemVersion": "1.3.0",
 	"keywords": [],
 	"legacy": true,
 	"name": "Demisto REST API",
@@ -181,5 +195,5 @@
 	"updated": "2022-06-22T17:13:14Z",
 	"useCases": [],
 	"version": -1,
-	"versionInfo": "7740378"
+	"versionInfo": "3343460"
 }

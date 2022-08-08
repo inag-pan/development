@@ -42,41 +42,41 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/pandas:1.0.0.23402
+dockerimage: demisto/pandas:1.0.0.26289
 engineinfo: {}
 name: SetGridField
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: "# STD Libraries\nfrom typing import Optional, List, Dict, Any\n# 3-rd party
-  libraries\nimport pandas as pd\nimport phrases_case\n# Local packages\n\n\n\n\n\ndef
-  normalized_string(phrase: str) -> str:\n    \"\"\" Normalize a string to flatcase
-  (to match `cli name`).\n\n    Args:\n        phrase: Phrase to normalize.\n\n    Returns:\n
-  \       str: Normalized phrase.\n\n    Examples:\n        >>> normalized_string(\"TestWord\")\n
-  \       \"testword\"\n        >>> normalized_string(\"hello_world\")\n        \"helloworld\"\n
-  \   \"\"\"\n    return phrases_case.camel(phrase).replace(\"'\", \"\").lower()\n\n\ndef
-  normalized_column_name(phrase: str) -> str:\n    \"\"\" Normalize columns or Grid
-  to connected word in lowercase, to match the logic of stripToClumnName() from\n
-  \       the client's `strings.js` and the server logic.\n\n    Args:\n        phrase:
-  Phrase to normalize.\n\n    Returns:\n        str: Normalized phrase.\n\n    Examples:\n
-  \       >>> normalized_string(\"Test Word!@#$%^&*()-=+\")\n        \"testword\"\n
-  \       >>> normalized_string(\"hello\U0001F9A6_world@\")\n        \"hello_world\"\n
-  \   \"\"\"\n    return re.sub(r'[^a-zA-Z\\d_]', '', phrase).lower()\n\n\ndef filter_dict(dict_obj:
-  Dict[Any, Any], keys: List[str], max_keys: Optional[int] = None) -> Dict[Any, Any]:\n
-  \   \"\"\" Filter keys from Dictionary:\n            1. Will only save keys which
-  specified in keys parameters.\n            2. If key in index 0 is \"*\", will save
-  all keys until max_keys (as much as Grid can include).\n\n    Args:\n        dict_obj:
-  Dictionary to filter keys from.\n        keys: Keys to save.\n        max_keys:
-  Max keys to save in case of keys[0] = \"*\"\n\n    Returns:\n        dict: Filtered
-  dict.\n    \"\"\"\n    # Iterate over all the items in dictionary\n    if keys[0]
-  != \"*\":\n        # create empty dict of given headers\n        new_dict = {key:
-  None for key in keys}\n        for (key, value) in dict_obj.items():\n            #
+script: "register_module_line('SetGridField', 'start', __line__())\n# STD Libraries\nfrom
+  typing import Optional, List, Dict, Any\n# 3-rd party libraries\nimport pandas as
+  pd\nimport phrases_case\n# Local packages\n\n\n\n\n\ndef normalized_string(phrase:
+  str) -> str:\n    \"\"\" Normalize a string to flatcase (to match `cli name`).\n\n
+  \   Args:\n        phrase: Phrase to normalize.\n\n    Returns:\n        str: Normalized
+  phrase.\n\n    Examples:\n        >>> normalized_string(\"TestWord\")\n        \"testword\"\n
+  \       >>> normalized_string(\"hello_world\")\n        \"helloworld\"\n    \"\"\"\n
+  \   return phrases_case.camel(phrase).replace(\"'\", \"\").lower()\n\n\ndef normalized_column_name(phrase:
+  str) -> str:\n    \"\"\" Normalize columns or Grid to connected word in lowercase,
+  to match the logic of stripToClumnName() from\n        the client's `strings.js`
+  and the server logic.\n\n    Args:\n        phrase: Phrase to normalize.\n\n    Returns:\n
+  \       str: Normalized phrase.\n\n    Examples:\n        >>> normalized_string(\"Test
+  Word!@#$%^&*()-=+\")\n        \"testword\"\n        >>> normalized_string(\"hello\U0001F9A6_world@\")\n
+  \       \"hello_world\"\n    \"\"\"\n    return re.sub(r'[^a-zA-Z\\d_]', '', phrase).lower()\n\n\ndef
+  filter_dict(dict_obj: Dict[Any, Any], keys: List[str], max_keys: Optional[int] =
+  None) -> Dict[Any, Any]:\n    \"\"\" Filter keys from Dictionary:\n            1.
+  Will only save keys which specified in keys parameters.\n            2. If key in
+  index 0 is \"*\", will save all keys until max_keys (as much as Grid can include).\n\n
+  \   Args:\n        dict_obj: Dictionary to filter keys from.\n        keys: Keys
+  to save.\n        max_keys: Max keys to save in case of keys[0] = \"*\"\n\n    Returns:\n
+  \       dict: Filtered dict.\n    \"\"\"\n    # Iterate over all the items in dictionary\n
+  \   if keys[0] != \"*\":\n        # create empty dict of given headers\n        new_dict
+  = {key: None for key in keys}\n        for (key, value) in dict_obj.items():\n            #
   Check if item satisfies the given condition then add to new dict\n            if
   value not in ('', None) and key in keys:\n                new_dict[key] = value\n\n
   \   else:\n        if max_keys:\n            new_dict = dict(list(dict_obj.items())[:max_keys])\n
@@ -102,25 +102,26 @@ script: "# STD Libraries\nfrom typing import Optional, List, Dict, Any\n# 3-rd p
   unpacked_data\n\n\n@logger\ndef get_current_table(grid_id: str) -> pd.DataFrame:\n
   \   \"\"\" Get current Data from the grid\n\n    Args:\n        grid_id: Grid ID
   to retrieve data from.\n\n    Returns:\n        DataFrame: Existing grid data.\n
-  \   \"\"\"\n    current_table: Optional[List[dict]] = demisto.incidents()[0].get(\"CustomFields\",
-  {}).get(grid_id)\n    if current_table is None:\n        raise ValueError(f\"The
-  following grid id was not found: {grid_id}. Please make sure you entered the correct
-  \"\n                         f\"incident type with the \\\"Machine name\\\" as it
-  appears in the incident field editor in \"\n                         f\"Settings->Advanced
-  ->Fields (Incident). Also make sure that this value appears in the \"\n                         f\"incident
-  Context Data under incident - if not then please consult with support.\")\n\n    return
-  pd.DataFrame(current_table)\n\n\n@logger\ndef validate_entry_context(context_path:
-  str, entry_context: Any, keys: List[str], unpack_nested_elements: bool):\n    \"\"\"
-  Validate entry context structure is valid, should be:\n        - For unpack_nested_elements==False:\n
-  \           1. List[Dict[str, str/bool/int/float]]\n            2. List[str/bool/int/float]\n
-  \           3. Dict[str, str/bool/int/float] - for developer it will be in first
-  index of a list.\n        - For unpack_nested_elements==True:\n            1. Dict[str,
-  Any]\n\n    Args:\n        context_path: Path of entry context\n        entry_context:
-  Entry context to validate\n        keys: Keys to collect data from\n        unpack_nested_elements:
-  True for unpacking nested elements, False otherwise.\n\n    Raises:\n        ValueError:
-  If structure is not valid.\n        data_type (str): The type of information in
-  the context path.\n    \"\"\"\n    if unpack_nested_elements:\n        if not isinstance(entry_context,
-  dict):\n            raise ValueError(\n                'When the unpack_nested_elements
+  \   \"\"\"\n    custom_fields = demisto.incident().get(\"CustomFields\", {})\n    if
+  grid_id not in custom_fields:\n        raise ValueError(f\"The following grid id
+  was not found: {grid_id}. Please make sure you entered the correct \"\n                         f\"incident
+  type with the \\\"Machine name\\\" as it appears in the incident field editor in
+  \"\n                         f\"Settings->Advanced ->Fields (Incident). Also make
+  sure that this value appears in the \"\n                         f\"incident Context
+  Data under incident - if not then please consult with support.\")\n\n    current_table:
+  Optional[List[dict]] = custom_fields.get(grid_id)\n\n    return pd.DataFrame(current_table)\n\n\n@logger\ndef
+  validate_entry_context(context_path: str, entry_context: Any, keys: List[str], unpack_nested_elements:
+  bool):\n    \"\"\" Validate entry context structure is valid, should be:\n        -
+  For unpack_nested_elements==False:\n            1. List[Dict[str, str/bool/int/float]]\n
+  \           2. List[str/bool/int/float]\n            3. Dict[str, str/bool/int/float]
+  - for developer it will be in first index of a list.\n        - For unpack_nested_elements==True:\n
+  \           1. Dict[str, Any]\n\n    Args:\n        context_path: Path of entry
+  context\n        entry_context: Entry context to validate\n        keys: Keys to
+  collect data from\n        unpack_nested_elements: True for unpacking nested elements,
+  False otherwise.\n\n    Raises:\n        ValueError: If structure is not valid.\n
+  \       data_type (str): The type of information in the context path.\n    \"\"\"\n
+  \   if unpack_nested_elements:\n        if not isinstance(entry_context, dict):\n
+  \           raise ValueError(\n                'When the unpack_nested_elements
   argument is set to True, the context object for the path should be '\n                'of
   type dict.')\n        else:\n            return\n\n    if not isinstance(entry_context,
   (list, dict)):\n        raise ValueError(\n            f'The context object {context_path}
@@ -220,7 +221,8 @@ script: "# STD Libraries\nfrom typing import Optional, List, Dict, Any\n# 3-rd p
   \           return_results(f'Set grid {grid_id} using {context_path} successfully.')\n\n
   \   except Exception as exc:\n        return_error(f'Failed to execute setGridField.
   Error: {str(exc)}', error=traceback.format_exc())\n\n\nif __name__ in ('__main__',
-  '__builtin__', 'builtins'):\n    main()\n"
+  '__builtin__', 'builtins'):\n    main()\n\nregister_module_line('SetGridField',
+  'end', __line__())\n"
 scripttarget: 0
 subtype: python3
 system: true

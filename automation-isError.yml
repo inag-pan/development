@@ -13,7 +13,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -30,7 +30,7 @@ outputs:
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   entryIds = (Array.isArray(args.entryId)) ? args.entryId : [args.entryId];
   for(var entryIdx=0; entryIdx < entryIds.length; ++entryIdx) {
       res = executeCommand("getEntry", {"id":entryIds[entryIdx]});

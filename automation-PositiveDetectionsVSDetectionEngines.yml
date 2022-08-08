@@ -9,20 +9,21 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.9.8.24399
 enabled: true
 engineinfo: {}
 name: PositiveDetectionsVSDetectionEngines
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('PositiveDetectionsVSDetectionEngines', 'start', __line__())
 
 
 
@@ -65,14 +66,12 @@ script: |2
                       "data": [positive_detections],
                       "groups": None,
                       "name": "Positive Detections",
-                      "label": "Positive Detections",
                       "color": "rgb(255, 23, 68)"
                   },
                   {
                       "data": [unknown_detections],
                       "groups": None,
                       "name": "Unknown",
-                      "label": "Unknown",
                       "color": "rgb(255, 144, 0)"
                   }
               ],
@@ -102,6 +101,8 @@ script: |2
   # python2 uses __builtin__ python3 uses builtins
   if __name__ == "__builtin__" or __name__ == "builtins":
       main()
+
+  register_module_line('PositiveDetectionsVSDetectionEngines', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true

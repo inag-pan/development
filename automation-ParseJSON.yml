@@ -3,15 +3,15 @@ args:
   description: The string value to convert to JSON.
   name: value
   required: true
-comment: 'Parse a given JSON string "value" to a representative object. Example: "{''a'':''value''}"
-  => { a: "value"}.'
+comment: 'Parse a given JSON string "value" to a representative object. Example: ''{"a":
+  "value"}'' => {"a": "value"}.'
 commonfields:
   id: ParseJSON
   version: -1
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -23,7 +23,7 @@ name: ParseJSON
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   var value = args.value;
   try {
     return JSON.parse(value);

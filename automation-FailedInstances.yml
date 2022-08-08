@@ -6,7 +6,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -61,7 +61,7 @@ runonce: false
 script: |
   var INTERNAL_MODULES_BRANDS = ['Scripts', 'Builtin', 'testmodule'];
 
-  var failedInstances = [{}];
+  var failedInstances = [];
   var all = getModules();
   var countFailed = 0;
   var countSuccess = 0;
@@ -105,8 +105,10 @@ script: |
   var success = countSuccess.toString();
   var failed = countFailed.toString();
   var total = (countSuccess + countFailed).toString();
-
-  if (failedInstances.length === 0) {
+  // When no failed instances were found, the script returns a list with an empty dict because several scripts
+  // expect the output to be [{}].
+  if (countFailed === 0) {
+      failedInstances.push({})
       hr = '### All active instances are available! ✅';
   } else {
       hr = 'Total instances: ' + total +'\n';

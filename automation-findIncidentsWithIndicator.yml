@@ -3,15 +3,19 @@ args:
   description: Indicator to search for
   name: indicator
   required: true
-comment: Lookup incidents with specified indicator. Use currentIncidentId to omit
-  the existing incident from output
+comment: |-
+  Lookup incidents with specified indicator. Use currentIncidentId to omit the existing incident from output.
+
+  This automation runs using the default Limited User role, unless you explicitly change the permissions.
+  For more information, see the section about permissions here:
+  https://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-2/cortex-xsoar-admin/playbooks/automations.html
 commonfields:
   id: findIncidentsWithIndicator
   version: -1
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -26,9 +30,9 @@ outputs:
 - contextPath: IncidentsWithIndicator.incidentIDs
   description: Incident IDs that the indicator was found in
 pswd: ""
-runas: DBotRole
+runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   var res = executeCommand("getIncidents", {"query": 'indicator.value:"'+args.indicator+'"'});
   var incidentsIDs=[];
   var foundIncidents = [];

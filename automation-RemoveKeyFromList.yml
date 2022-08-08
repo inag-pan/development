@@ -12,7 +12,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -25,6 +25,7 @@ pswd: ""
 runas: DBotWeakRole
 runonce: false
 script: |
+  register_module_line('RemoveKeyFromList', 'start', __line__())
   """RemoveKeyFromList
   Removes a Key from a JSON-backed List
   """
@@ -103,6 +104,8 @@ script: |
 
   if __name__ in ('__main__', '__builtin__', 'builtins'):
       main()
+
+  register_module_line('RemoveKeyFromList', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true

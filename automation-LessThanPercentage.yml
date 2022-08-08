@@ -17,7 +17,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -34,7 +34,7 @@ outputs:
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   first = parseFloat(args.firstPercentage);
   if (!first) {
       throw 'firstPercentage is not valid: '+args.firstPercentage;

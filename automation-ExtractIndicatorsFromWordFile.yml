@@ -6,26 +6,31 @@ args:
 comment: |-
   Used to extract indicators from Word files (DOC, DOCX).
   The script does not extract data from macros (e.g., embedded code).
+
+  This automation runs using the default Limited User role, unless you explicitly change the permissions.
+  For more information, see the section about permissions here:
+  https://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-2/cortex-xsoar-admin/playbooks/automations.html
 commonfields:
   id: ExtractIndicatorsFromWordFile
   version: -1
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/office-utils:2.0.0.21435
+dockerimage: demisto/office-utils:2.0.0.23094
 enabled: true
 engineinfo: {}
 name: ExtractIndicatorsFromWordFile
 pswd: ""
 runas: DBotRole
 runonce: false
-script: |2
+script: |
+  register_module_line('ExtractIndicatorsFromWordFile', 'start', __line__())
 
 
 
@@ -51,19 +56,14 @@ script: |2
           self.all_data = ""
 
       def get_file_details(self):
-          cmd_res = demisto.executeCommand('getFilePath', {'id': demisto.args().get("entryID")})
-          file_res = cmd_res[0]
-          if isError(file_res):
-              file_res["Contents"] = "Error fetching entryID: " + file_res["Contents"]
-              self.res = file_res
-          else:  # Got file path:
-              self.file_path = file_res.get('Contents').get('path')
-              self.file_name = file_res.get('Contents').get('name')
-              file = demisto.dt(demisto.context(), "File(val.EntryID === '{}')".format(demisto.args().get('entryID')))
-              if isinstance(file, list):
-                  file = file[0]
+          file_path_data = demisto.getFilePath(demisto.args().get("entryID"))
+          self.file_path = file_path_data.get('path')
+          self.file_name = file_path_data.get('name')
+          file_entry = demisto.dt(self.get_context(), "File(val.EntryID === '{}')".format(demisto.args().get('entryID')))
+          if isinstance(file_entry, list):
+              file_entry = file_entry[0]
 
-              self.file_type = file.get("Type")
+          self.file_type = file_entry.get("Type")
 
       def convert_doc_to_docx(self):
           output = subprocess.check_output(
@@ -135,6 +135,11 @@ script: |2
           else:
               return_error("Input file is not a doc file.")
 
+      def get_context(self):
+          incident_id = demisto.incident()['id']
+          res = execute_command('getContext', {'id': incident_id})
+          return demisto.get(res, 'context')
+
 
   def main():
       # Parsing:
@@ -169,6 +174,8 @@ script: |2
   # python2 uses __builtin__ python3 uses builtins
   if __name__ == "__builtin__" or __name__ == "builtins":
       main()
+
+  register_module_line('ExtractIndicatorsFromWordFile', 'end', __line__())
 scripttarget: 0
 subtype: python2
 system: true

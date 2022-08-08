@@ -6,7 +6,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.5.0
-    itemVersion: 1.13.40
+    itemVersion: 1.31.14
     packID: Base
     packPropagationLabels:
     - all

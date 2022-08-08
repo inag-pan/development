@@ -20,7 +20,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.1.7
+    itemVersion: 1.3.0
     packID: DemistoRESTAPI
     packPropagationLabels:
     - all
@@ -35,7 +35,7 @@ name: DemistoLinkIncidents
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   var body = {
       id: args.masterID,
       otherIncidentsIDs: args.otherIDs.split(','),

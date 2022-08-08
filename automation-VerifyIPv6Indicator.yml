@@ -10,20 +10,21 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.5.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.10.4.30607
 enabled: true
 engineinfo: {}
 name: VerifyIPv6Indicator
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('VerifyIPv6Indicator', 'start', __line__())
 
 
   import ipaddress
@@ -47,7 +48,7 @@ script: |2
           if is_valid_ipv6_address(item):
               entries_list.append(item)
           else:
-              continue
+              entries_list.append('')
 
       if entries_list:
           return_results(entries_list)
@@ -58,6 +59,8 @@ script: |2
   # python2 uses __builtin__ python3 uses builtins
   if __name__ == "__builtin__" or __name__ == "builtins":
       main()
+
+  register_module_line('VerifyIPv6Indicator', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true

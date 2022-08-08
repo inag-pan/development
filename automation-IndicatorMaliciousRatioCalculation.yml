@@ -24,27 +24,33 @@ args:
 - description: The start date by which to filter incidents. Date format will be the
     same as in the incidents query page, for example:"2021-01-01T00:00:00").
   name: fromDate
-comment: Return indicators appears in resolved incidents, and resolved incident ids.
+comment: |-
+  Return indicators appears in resolved incidents, and resolved incident ids.
+
+  This automation runs using the default Limited User role, unless you explicitly change the permissions.
+  For more information, see the section about permissions here:
+  https://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-2/cortex-xsoar-admin/playbooks/automations.html
 commonfields:
   id: IndicatorMaliciousRatioCalculation
   version: -1
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python:2.7.18.24066
+dockerimage: demisto/python:2.7.18.27799
 enabled: true
 engineinfo: {}
 name: IndicatorMaliciousRatioCalculation
 pswd: ""
-runas: DBotRole
+runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('IndicatorMaliciousRatioCalculation', 'start', __line__())
 
 
 
@@ -53,7 +59,7 @@ script: |2
   import hashlib
   import json
 
-  from dateutil import parser
+  from dateutil import parser  # type: ignore[import]
 
 
   def get_incident_labels_map(labels):
@@ -191,6 +197,8 @@ script: |2
 
   if __name__ in ('__main__', '__builtin__', 'builtins'):
       main()
+
+  register_module_line('IndicatorMaliciousRatioCalculation', 'end', __line__())
 scripttarget: 0
 subtype: python2
 system: true

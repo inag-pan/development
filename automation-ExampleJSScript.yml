@@ -10,7 +10,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -21,7 +21,7 @@ name: ExampleJSScript
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   // This is an Example server-side script that shows how to use and create JavaScript scripts in the Cortex XSOAR server
   // The log function allows you to print data during script execution
   log('Hello World');

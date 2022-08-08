@@ -35,7 +35,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -46,7 +46,8 @@ name: IncidentAddSystem
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: return executeCommand('addSystem',args);
+script: |
+  return executeCommand('addSystem',args);
 scripttarget: 0
 system: true
 tags:

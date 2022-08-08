@@ -4,14 +4,19 @@ args:
   isArray: true
   name: related
   required: true
-comment: Marks given incidents as related to current incident
+comment: |-
+  Marks given incidents as related to current incident.
+
+  This automation runs using the default Limited User role, unless you explicitly change the permissions.
+  For more information, see the section about permissions here:
+  https://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-2/cortex-xsoar-admin/playbooks/automations.html
 commonfields:
   id: MarkRelatedIncidents
   version: -1
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -21,7 +26,7 @@ enabled: true
 engineinfo: {}
 name: MarkRelatedIncidents
 pswd: ""
-runas: DBotRole
+runas: DBotWeakRole
 runonce: false
 script: |
   var related = argToList(args.related);

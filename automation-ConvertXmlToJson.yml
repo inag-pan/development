@@ -19,7 +19,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -31,7 +31,7 @@ name: ConvertXmlToJson
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   var xmlJson = x2j(args.xml);
   try {
     xmlJson = JSON.parse(xmlJson);

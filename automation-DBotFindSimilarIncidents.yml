@@ -98,7 +98,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.13.40
+    itemVersion: 1.31.14
     packID: Base
     packPropagationLabels:
     - all
@@ -111,7 +111,8 @@ name: DBotFindSimilarIncidents
 pswd: ""
 runas: DBotWeakRole
 runonce: true
-script: |2
+script: |
+  register_module_line('DBotFindSimilarIncidents', 'start', __line__())
 
 
 
@@ -1072,6 +1073,8 @@ script: |2
 
   if __name__ in ['__main__', '__builtin__', 'builtins']:
       main()
+
+  register_module_line('DBotFindSimilarIncidents', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true

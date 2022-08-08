@@ -35,7 +35,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 6.1.0
-    itemVersion: 1.13.40
+    itemVersion: 1.31.14
     packID: Base
     packPropagationLabels:
     - all
@@ -48,7 +48,8 @@ name: DrawRelatedIncidentsCanvas
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('DrawRelatedIncidentsCanvas', 'start', __line__())
 
 
 
@@ -170,6 +171,8 @@ script: |2
 
 
   main()
+
+  register_module_line('DrawRelatedIncidentsCanvas', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true

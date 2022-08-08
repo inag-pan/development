@@ -96,13 +96,13 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.13.40
+    itemVersion: 1.31.14
     packID: Base
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/ml:1.0.0.23334
+dockerimage: demisto/ml:1.0.0.30541
 engineinfo: {}
 name: DBotPreProcessTextData
 outputs:
@@ -122,6 +122,7 @@ pswd: ""
 runas: DBotWeakRole
 runonce: true
 script: |
+  register_module_line('DBotPreProcessTextData', 'start', __line__())
   # pylint: disable=no-member
   from collections import Counter
 
@@ -624,6 +625,8 @@ script: |
   if __name__ in ['builtins', '__main__']:
       entry = main()
       demisto.results(entry)
+
+  register_module_line('DBotPreProcessTextData', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true

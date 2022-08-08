@@ -106,19 +106,20 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.13.40
+    itemVersion: 1.31.14
     packID: Base
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/ml:1.0.0.23334
+dockerimage: demisto/ml:1.0.0.30541
 engineinfo: {}
 name: DBotBuildPhishingClassifier
 pswd: ""
 runas: DBotWeakRole
 runonce: true
 script: |
+  register_module_line('DBotBuildPhishingClassifier', 'start', __line__())
   import base64
   import copy
   import gc
@@ -161,7 +162,7 @@ script: |
       tag_field = args['tagField']
       tags_union = ' '.join(['"{}"'.format(label) for label in mapping_dict])
       mapping_query = '{}:({})'.format(tag_field, tags_union)
-      if 'query' not in args:
+      if 'query' not in args or args['query'].strip() == '':
           args['query'] = mapping_query
       else:
           args['query'] = '({}) and ({})'.format(query, mapping_query)
@@ -226,6 +227,8 @@ script: |
 
   if __name__ in ['__main__', '__builtin__', 'builtins']:
       main()
+
+  register_module_line('DBotBuildPhishingClassifier', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true

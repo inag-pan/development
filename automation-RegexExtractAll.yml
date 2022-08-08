@@ -30,9 +30,16 @@ args:
   - "true"
 - auto: PREDEFINED
   defaultValue: "false"
-  description: Only set to 'true' if using in a playbook task and you want a failure.
-    to return an error
+  description: Only set to 'true' if used in a playbook task and you want that failure
+    will return an error.
   name: error_if_no_match
+  predefined:
+  - "false"
+  - "true"
+- auto: PREDEFINED
+  defaultValue: "false"
+  description: Whether to unpack the tuple values of results. Default is "false".
+  name: unpack_matches
   predefined:
   - "false"
   - "true"
@@ -49,7 +56,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -62,10 +69,11 @@ name: RegexExtractAll
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
-
+script: |
+  register_module_line('RegexExtractAll', 'start', __line__())
 
   import regex
+
 
 
   def main():
@@ -73,6 +81,7 @@ script: |2
 
       re_flags = regex.V1
       error_if_no_match = False
+      unpack_matches = False
 
       try:
 
@@ -88,6 +97,9 @@ script: |2
           if demisto.args()['error_if_no_match'].lower() == 'true':
               error_if_no_match = True
 
+          if demisto.args()['unpack_matches'].lower() == 'true':
+              unpack_matches = True
+
       except KeyError:
           pass
 
@@ -97,7 +109,14 @@ script: |2
           matches = regex.findall(regex_pattern, match_target)
 
           if error_if_no_match is False or len(matches) != 0:
-              demisto.results(matches)
+              if unpack_matches and matches:
+                  results = []
+                  for m in matches:
+                      results.extend([v for v in (m if isinstance(m, tuple) else [m]) if v])
+              else:
+                  results = matches
+
+              demisto.results(results)
           else:
               return_error('No results found')
 
@@ -107,6 +126,8 @@ script: |2
 
   if __name__ == "__builtin__" or __name__ == "builtins":
       main()
+
+  register_module_line('RegexExtractAll', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true

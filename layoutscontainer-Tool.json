@@ -138,7 +138,7 @@
 						"static": false,
 						"w": 2,
 						"x": 0,
-						"y": 10
+						"y": 8
 					},
 					{
 						"h": 3,
@@ -153,7 +153,7 @@
 						"type": "relatedIncidents",
 						"w": 2,
 						"x": 0,
-						"y": 7
+						"y": 5
 					},
 					{
 						"h": 3,
@@ -167,8 +167,8 @@
 						"static": false,
 						"type": "relationshipsTable",
 						"w": 2,
-						"x": 0,
-						"y": 4
+						"x": 1,
+						"y": 2
 					},
 					{
 						"displayType": "CARD",
@@ -255,7 +255,7 @@
 						"y": 0
 					},
 					{
-						"h": 6,
+						"h": 3,
 						"i": "rsdogskmtv-bf817380-b311-11eb-941c-e725acf1fbbc",
 						"items": [],
 						"maxW": 3,
@@ -267,7 +267,7 @@
 						"type": "indicatorTimeline",
 						"w": 1,
 						"x": 2,
-						"y": 4
+						"y": 5
 					},
 					{
 						"h": 3,
@@ -282,11 +282,11 @@
 						"type": "comments",
 						"w": 1,
 						"x": 2,
-						"y": 10
+						"y": 8
 					},
 					{
 						"displayType": "ROW",
-						"h": 2,
+						"h": 3,
 						"hideItemTitleOnlyOne": true,
 						"hideName": false,
 						"i": "rsdogskmtv-15926130-b312-11eb-941c-e725acf1fbbc",
@@ -307,7 +307,7 @@
 						"moved": false,
 						"name": "Tool Description",
 						"static": false,
-						"w": 3,
+						"w": 1,
 						"x": 0,
 						"y": 2
 					}
@@ -1118,7 +1118,7 @@
 			}
 		]
 	},
-	"itemVersion": "3.1.19",
+	"itemVersion": "3.2.41",
 	"locked": false,
 	"mobile": null,
 	"name": "Tool",

@@ -5,32 +5,35 @@ args:
 - description: Incident ID of the second incident.
   name: incident_id_2
   required: true
-comment: Compares the labels of two incidents. Returns the labels that are unique
-  to each incident.
+comment: |-
+  Compares the labels of two incidents. Returns the labels that are unique to each incident.
+
+  This automation runs using the default Limited User role, unless you explicitly change the permissions.
+  For more information, see the section about permissions here:
+  https://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-2/cortex-xsoar-admin/playbooks/automations.html
 commonfields:
   id: CompareIncidentsLabels
   version: -1
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python:2.7.18.24066
+dockerimage: demisto/python3:3.10.4.29342
 enabled: true
 engineinfo: {}
 name: CompareIncidentsLabels
 pswd: ""
-runas: DBotRole
+runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('CompareIncidentsLabels', 'start', __line__())
 
 
-
-  import traceback
 
   try:
       inc1 = demisto.args().get('incident_id_1')
@@ -69,10 +72,11 @@ script: |2
           md = "No different labels."
       return_outputs(md, {}, {})
   except Exception as ex:
-      demisto.error(str(ex) + "\n\nTrace:\n" + traceback.format_exc())
-      return_error(ex.message)
+      return_error(f'An Error occured: {ex}', error=ex)
+
+  register_module_line('CompareIncidentsLabels', 'end', __line__())
 scripttarget: 0
-subtype: python2
+subtype: python3
 system: true
 tags:
 - incidents

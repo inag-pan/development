@@ -527,7 +527,7 @@
 	"formatScript": "ExtractDomainAndFQDNFromUrlAndEmail",
 	"fromServerVersion": "5.5.0",
 	"id": "domainRepUnified",
-	"itemVersion": "3.1.19",
+	"itemVersion": "3.2.41",
 	"layout": "domainRepUnified",
 	"legacyNames": null,
 	"locked": false,
@@ -538,7 +538,7 @@
 		"all"
 	],
 	"propagationLabels": [],
-	"regex": "(?i)(?:(?:https?|ftp|hxxps?):(\\/?\\/?\\\\?\\\\?)|www\\[?\\.\\]?|ftp\\[?\\.\\]?)(?:[-\\d\\p{L}]+\\[?\\.\\]?)+[-\\d\\p{L}]+(?::\\d+)?(?:((\\/)|(\\*|\\?))+[-\\d\\p{L}+\u0026@#\\/%=~_$?!\\-:,.\\(\\);\\\\*–—―|]+)?|\\b[A-Za-z0-9._%=+\\p{L}-]+@[A-Za-z0-9\\p{L}.-]+\\.[A-Za-z]{2,}\\b",
+	"regex": "(?:[._%+\\p{L}\\p{N}-]+|\\[\\.\\])+(?:\\[\\.\\]|\\.)[\\p{L}]{2,}|(?:https:\\/\\/\\w*|\\w*)\\.safelinks\\.protection\\.outlook\\.com\\/[^\\s]*|https:\\/\\/urldefense\\.(?:proofpoint\\.)?com\\/.*",
 	"reputationCommand": "domain",
 	"reputationScriptName": "",
 	"shouldShareComments": false,

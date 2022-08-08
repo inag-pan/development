@@ -17,7 +17,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -29,7 +29,7 @@ name: commentsToContext
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   var entry = executeCommand("getEntry", {"id":args.entryId});
   var key=args.contextKey;
   var comments=entry[0].Contents;

@@ -10,7 +10,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -22,7 +22,8 @@ name: URLEncode
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('URLEncode', 'start', __line__())
 
 
   from urllib.parse import quote, unquote
@@ -41,6 +42,8 @@ script: |2
           return_results(main(demisto.args()))
       except Exception as exc:
           return_error(str(exc), error=exc)
+
+  register_module_line('URLEncode', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true

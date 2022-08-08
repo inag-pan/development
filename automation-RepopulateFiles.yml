@@ -6,7 +6,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -20,6 +20,7 @@ pswd: ""
 runas: DBotWeakRole
 runonce: false
 script: |
+  register_module_line('RepopulateFiles', 'start', __line__())
   import os
 
 
@@ -79,6 +80,8 @@ script: |
 
   if __name__ in ["__builtin__", "builtins"]:
       main()
+
+  register_module_line('RepopulateFiles', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
