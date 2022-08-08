@@ -23,7 +23,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -32,14 +32,15 @@ contentitemexportablefields:
 dependson:
   must:
   - '|||demisto-api-get'
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.10.4.27798
 enabled: true
 engineinfo: {}
 name: IncidentFields
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('IncidentFields', 'start', __line__())
 
 
 
@@ -53,7 +54,7 @@ script: |2
       }
 
       if not field_context_data['associatedToAll']:
-          if len(field['associatedTypes']) != 0:
+          if len(field.get('associatedTypes') or []) != 0:
               field_context_data['associatedTypes'] = field['associatedTypes']
           else:
               field_context_data['associatedTypes'] = None
@@ -105,6 +106,8 @@ script: |2
 
   if __name__ in ["__builtin__", "builtins"]:
       main()
+
+  register_module_line('IncidentFields', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
