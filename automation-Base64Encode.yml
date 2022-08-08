@@ -10,7 +10,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -25,7 +25,7 @@ outputs:
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   var result = Base64.encode(args.input);
   return {Type: entryTypes.note,
       Contents: result,
