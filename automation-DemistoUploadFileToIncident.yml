@@ -6,16 +6,16 @@ args:
   name: entryID
 - description: Request body
   name: body
-comment: Copies a file from this incident to the specified incident. The file is uploaded
-  as an attachment to the specified incident’s Summary page, and recorded as an entry
-  in the War Room.
+comment: Deprecated. Use the *DemistoUploadFileV2* script instead. Copies a file from
+  this incident to the specified incident. The file is uploaded as an attachment to
+  the specified incident’s Summary page, and recorded as an entry in the War Room.
 commonfields:
   id: DemistoUploadFileToIncident
   version: -1
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.1.7
+    itemVersion: 1.3.0
     packID: DemistoRESTAPI
     packPropagationLabels:
     - all
@@ -24,6 +24,7 @@ contentitemexportablefields:
 dependson:
   must:
   - demisto-api-multipart
+deprecated: true
 dockerimage: demisto/python:2.7.18.24066
 enabled: true
 engineinfo: {}
