@@ -5,7 +5,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -20,7 +20,7 @@ name: emailFieldTriggered
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   var users = executeCommand('getUsers', {});
   var email;
   for (var i = 0; i < users[0].Contents.length; i++) {
