@@ -13,91 +13,11 @@
 	"contentItems": {
 		"automation": [
 			{
-				"description": "Parse Stix files to Demisto indicators",
-				"name": "StixParser",
-				"tags": [
-					"stix",
-					"ioc"
-				]
-			},
-			{
-				"description": "Create a phishing classifier using machine learning technique, based on email content.",
-				"name": "DBotBuildPhishingClassifier",
-				"tags": [
-					"ml"
-				]
-			},
-			{
-				"description": "This automation allows to delete a relationship between indicator objects based on the relationship id.",
-				"name": "DeleteIndicatorRelationships",
-				"tags": [
-					"basescript"
-				]
-			},
-			{
-				"description": "Draw incidents and indicators on the canvas to map and visualize their connections.",
-				"name": "DrawRelatedIncidentsCanvas",
-				"tags": []
-			},
-			{
-				"description": "Pre-process text data for the machine learning text classifier.",
-				"name": "DBotPreProcessTextData",
-				"tags": [
-					"ml"
-				]
-			},
-			{
-				"description": "Find past similar incidents based on incident fields' similarity. Includes an option to also display indicators similarity.",
-				"name": "DBotFindSimilarIncidents",
-				"tags": []
-			},
-			{
-				"description": "Runs validation and linting using the Demisto SDK on content items, such as integrations, automations and content packs. This automation script is used as part of the content validation that runs as part of the contribution flow.",
-				"name": "ValidateContent",
-				"tags": []
-			},
-			{
-				"description": "Check if a docker image is available for performing docker pull. Script simulates the docker pull flow but doesn't actually pull the image. Returns an entry with 'ok' if all is good otherwise will return an error.",
-				"name": "CheckDockerImageAvailable",
-				"tags": []
-			},
-			{
-				"description": "Gets a list of incident objects and the associated incident outputs that match the specified query and filters. The results are returned in a structured data file.",
-				"name": "GetIncidentsByQuery",
-				"tags": [
-					"ml"
-				]
-			},
-			{
-				"description": "Common code that will be merged into each server script when it runs.",
-				"name": "CommonServerPython",
+				"description": "Common code that will be merged into each server script when it runs",
+				"name": "CommonServer",
 				"tags": [
 					"infra",
 					"server"
-				]
-			},
-			{
-				"description": "Train clustering model on any incident type.",
-				"name": "DBotTrainClustering",
-				"tags": [
-					"ml"
-				]
-			},
-			{
-				"description": "Train a machine learning text classifier.",
-				"name": "DBotTrainTextClassifierV2",
-				"tags": [
-					"ml"
-				]
-			},
-			{
-				"description": "Find similar incidents by text comparison - the algorithm based on TF-IDF method.\nTo read more about this method: https://en.wikipedia.org/wiki/Tf%E2%80%93idf\n",
-				"name": "FindSimilarIncidentsByText",
-				"tags": [
-					"ml",
-					"dedup",
-					"duplicate",
-					"incidents"
 				]
 			},
 			{
@@ -108,24 +28,51 @@
 				]
 			},
 			{
-				"description": "Highlight words inside a given text.",
-				"name": "HighlightWords",
-				"tags": []
-			},
-			{
-				"description": "Common code that will be merged into each PowerShell script/integration when it runs",
-				"name": "CommonServerPowerShell",
+				"description": "Gets a list of indicator objects and the associated indicator outputs that match the specified query and filters. The results are returned in a structured data file.",
+				"name": "GetIndicatorsByQuery",
 				"tags": [
-					"infra",
-					"server"
+					"ml"
 				]
 			},
 			{
-				"description": "Common code that will be merged into each server script when it runs",
-				"name": "CommonServer",
+				"description": "Check if a docker image is available for performing docker pull. Script simulates the docker pull flow but doesn't actually pull the image. Returns an entry with 'ok' if all is good otherwise will return an error.",
+				"name": "CheckDockerImageAvailable",
+				"tags": []
+			},
+			{
+				"description": "This automation allows to delete a relationship between indicator objects based on the relationship id.",
+				"name": "DeleteIndicatorRelationships",
 				"tags": [
-					"infra",
-					"server"
+					"basescript"
+				]
+			},
+			{
+				"description": "Gets a list of incident objects and the associated incident outputs that\nmatch the specified query and filters. The results are returned in a structured data file.\n\nThis automation runs using the default Limited User role, unless you explicitly change the permissions.\nFor more information, see the section about permissions here:\nhttps://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-5/cortex-xsoar-admin/playbooks/automations.html",
+				"name": "GetIncidentsByQuery",
+				"tags": [
+					"ml"
+				]
+			},
+			{
+				"description": "Finds a threshold for ML model, and performs an evaluation based on it",
+				"name": "GetMLModelEvaluation",
+				"tags": [
+					"ml"
+				]
+			},
+			{
+				"description": "Predict text label using a pre-trained machine learning phishing model, and get the most important words used in the classification decision.",
+				"name": "DBotPredictPhishingWords",
+				"tags": [
+					"ml",
+					"phishing"
+				]
+			},
+			{
+				"description": "Train clustering model on any incident type.",
+				"name": "DBotTrainClustering",
+				"tags": [
+					"ml"
 				]
 			},
 			{
@@ -145,11 +92,22 @@
 				]
 			},
 			{
-				"description": "Predict text label using a pre-trained machine learning phishing model, and get the most important words used in the classification decision.",
-				"name": "DBotPredictPhishingWords",
+				"description": "Runs validation and linting using the Demisto SDK on content items, such as integrations, automations and content packs. This automation script is used as part of the content validation that runs as part of the contribution flow.",
+				"name": "ValidateContent",
+				"tags": []
+			},
+			{
+				"description": "This automation outputs the indicator relationships to context according to the provided query, using the entities, entityTypes, and relationships arguments. All arguments will use the AND operator. For example, using the following arguments entities=8.8.8.8 entities_types=Domain will provide only relationships that the 8.8.8.8 indicator has with indicators of type domain.",
+				"name": "SearchIndicatorRelationships",
 				"tags": [
-					"ml",
-					"phishing"
+					"basescript"
+				]
+			},
+			{
+				"description": "Train a machine learning text classifier.",
+				"name": "DBotTrainTextClassifierV2",
+				"tags": [
+					"ml"
 				]
 			},
 			{
@@ -160,12 +118,16 @@
 				]
 			},
 			{
-				"description": "Parse Sane-json-reports and export them as docx files (used internally).",
-				"name": "SaneDocReports",
+				"description": "Draw incidents and indicators on the canvas to map and visualize their connections.",
+				"name": "DrawRelatedIncidentsCanvas",
+				"tags": []
+			},
+			{
+				"description": "Parse Stix files to Demisto indicators",
+				"name": "StixParser",
 				"tags": [
-					"sane-doc-reports",
-					"sane-reports",
-					"docx"
+					"stix",
+					"ioc"
 				]
 			},
 			{
@@ -177,11 +139,6 @@
 				]
 			},
 			{
-				"description": "Finds similar incidents based on indicators' similarity. Indicators' contribution to the final score is based on their scarcity.",
-				"name": "DBotFindSimilarIncidentsByIndicators",
-				"tags": []
-			},
-			{
 				"description": "Deprecated. No available replacement. Suggests a classifier mapping based on an advanced name matching algorithm.",
 				"name": "DBotSuggestClassifierMapping",
 				"tags": [
@@ -189,25 +146,68 @@
 				]
 			},
 			{
-				"description": "This automation outputs the indicator relationships to context according to the provided query, using the entities, entityTypes, and relationships arguments. All arguments will use the AND operator. For example, using the following arguments entities=8.8.8.8 entities_types=Domain will provide only relationships that the 8.8.8.8 indicator has with indicators of type domain.",
-				"name": "SearchIndicatorRelationships",
+				"description": "Find past similar incidents based on incident fields' similarity. Includes an option to also display indicators similarity.",
+				"name": "DBotFindSimilarIncidents",
+				"tags": []
+			},
+			{
+				"description": "Parse Sane-json-reports and export them as docx files (used internally).",
+				"name": "SaneDocReports",
 				"tags": [
-					"basescript"
+					"sane-doc-reports",
+					"sane-reports",
+					"docx"
 				]
 			},
 			{
-				"description": "Gets a list of indicator objects and the associated indicator outputs that match the specified query and filters. The results are returned in a structured data file.",
-				"name": "GetIndicatorsByQuery",
+				"description": "Pre-process text data for the machine learning text classifier.",
+				"name": "DBotPreProcessTextData",
 				"tags": [
 					"ml"
 				]
 			},
 			{
-				"description": "Finds a threshold for ML model, and performs an evaluation based on it",
-				"name": "GetMLModelEvaluation",
+				"description": "Common code that will be merged into each server script when it runs.",
+				"name": "CommonServerPython",
+				"tags": [
+					"infra",
+					"server"
+				]
+			},
+			{
+				"description": "Create a phishing classifier using machine learning technique, based on email content.",
+				"name": "DBotBuildPhishingClassifier",
 				"tags": [
 					"ml"
 				]
+			},
+			{
+				"description": "Find similar incidents by text comparison - the algorithm based on TF-IDF method.\nTo read more about this method: https://en.wikipedia.org/wiki/Tf%E2%80%93idf\n\nThis automation runs using the default Limited User role, unless you explicitly\nchange the permissions.\nFor more information, see the section about permissions here:\nhttps://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-2/cortex-xsoar-admin/playbooks/automations.html",
+				"name": "FindSimilarIncidentsByText",
+				"tags": [
+					"ml",
+					"dedup",
+					"duplicate",
+					"incidents"
+				]
+			},
+			{
+				"description": "Common code that will be merged into each PowerShell script/integration when it runs",
+				"name": "CommonServerPowerShell",
+				"tags": [
+					"infra",
+					"server"
+				]
+			},
+			{
+				"description": "Highlight words inside a given text.",
+				"name": "HighlightWords",
+				"tags": []
+			},
+			{
+				"description": "Finds similar incidents based on indicators' similarity. Indicators' contribution to the final score is based on their scarcity.",
+				"name": "DBotFindSimilarIncidentsByIndicators",
+				"tags": []
 			}
 		],
 		"classifier": null,
@@ -227,11 +227,11 @@
 		"widget": null
 	},
 	"created": "2020-08-02T11:28:20Z",
-	"currentVersion": "1.13.40",
+	"currentVersion": "1.31.14",
 	"dependencies": {},
 	"deprecated": false,
 	"description": "The base pack for Cortex XSOAR.",
-	"downloads": 40765,
+	"downloads": 73631,
 	"eulaLink": "https://github.com/demisto/content/blob/master/LICENSE",
 	"fromServerVersion": "6.0.0",
 	"general": [
@@ -243,7 +243,7 @@
 	"id": "Base",
 	"installMessage": "",
 	"integrations": [],
-	"itemVersion": "1.13.40",
+	"itemVersion": "1.31.14",
 	"keywords": [
 		"base",
 		"common"
@@ -270,8 +270,8 @@
 	},
 	"tags": [],
 	"toServerVersion": "",
-	"updated": "2022-07-31T22:05:59Z",
+	"updated": "2022-07-31T22:03:55Z",
 	"useCases": [],
 	"version": -1,
-	"versionInfo": "1820031"
+	"versionInfo": "3370607"
 }
