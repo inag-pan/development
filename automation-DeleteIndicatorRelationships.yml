@@ -12,24 +12,23 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 6.2.0
-    itemVersion: 1.13.40
+    itemVersion: 1.31.14
     packID: Base
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.10.4.30607
 engineinfo: {}
 name: DeleteIndicatorRelationships
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('DeleteIndicatorRelationships', 'start', __line__())
 
 
 
-
-  import traceback
 
   ''' MAIN FUNCTION '''
 
@@ -43,7 +42,6 @@ script: |2
           hr = f"The relationships {str(ids)} were deleted successfully."
           return_results(CommandResults(readable_output=hr))
       except Exception as ex:
-          demisto.error(traceback.format_exc())  # print the traceback
           return_error(f'Failed to execute DeleteIndicatorRelationships. Error: {str(ex)}')
 
 
@@ -52,6 +50,8 @@ script: |2
 
   if __name__ in ('__main__', '__builtin__', 'builtins'):
       main()
+
+  register_module_line('DeleteIndicatorRelationships', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
