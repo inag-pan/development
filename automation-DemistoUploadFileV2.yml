@@ -9,6 +9,18 @@ args:
   required: true
 - description: Request body
   name: body
+- auto: PREDEFINED
+  defaultValue: war room entry
+  description: |-
+    Where to upload the file
+    - Available options are:
+    - `war room entry`: the file will be uploaded as war room entry.
+    - `incident attachment`: the file will be uploaded as incident attachment.
+    - default are `war room entry`
+  name: target
+  predefined:
+  - war room entry
+  - incident attachment
 comment: Copies a file from this incident to the specified incident. The file is recorded
   as an entry in the specified incident’s War Room.
 commonfields:
@@ -17,7 +29,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.1.7
+    itemVersion: 1.3.0
     packID: DemistoRESTAPI
     packPropagationLabels:
     - all
@@ -26,7 +38,7 @@ contentitemexportablefields:
 dependson:
   must:
   - demisto-api-multipart
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.10.1.26972
 enabled: true
 engineinfo: {}
 name: DemistoUploadFileV2
@@ -34,27 +46,32 @@ pswd: ""
 runas: DBotWeakRole
 runonce: false
 script: |
+  register_module_line('DemistoUploadFileV2', 'start', __line__())
   from typing import Tuple
 
 
 
 
-  def upload_file(incident_id: str, entry_id: str, body: str = ''):
+  def upload_file(incident_id: str, entry_id: str, body: str = '', as_incident_attachment: bool = True):
+      service_name = 'incident' if as_incident_attachment else 'entry'
       return demisto.executeCommand("demisto-api-multipart",
-                                    {"uri": f'entry/upload/{incident_id}', "entryID": entry_id, "body": body})
+                                    {"uri": f'{service_name}/upload/{incident_id}', "entryID": entry_id, "body": body})
 
 
   def upload_file_command(args: dict) -> Tuple[str, str]:
       incident_id = args.get('incidentID', '')
       entry_id = args.get('entryID', '')
       body = args.get('body', '')
-
-      response = upload_file(incident_id, entry_id, body)
+      target = args.get('target', 'war room entry')
+      response = upload_file(incident_id, entry_id, body, target == 'incident attachment')
       if is_error(response[0]):
           raise Exception("There was an issue uploading the file. Check your API key and input arguments.")
 
       uploaded_entry_id = demisto.dt(response, 'Contents.response.entries.id')
-      readable = f'File uploaded successfully. Entry ID is {uploaded_entry_id}'
+      readable = 'File uploaded successfully.'
+      # in case the file uploaded as war room entry
+      if uploaded_entry_id:
+          readable += f' Entry ID is {uploaded_entry_id}'
       if body:
           readable += f'. Comment is:{body}'
 
@@ -71,6 +88,8 @@ script: |
 
   if __name__ in ['__main__', 'builtin', 'builtins']:
       main()
+
+  register_module_line('DemistoUploadFileV2', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
