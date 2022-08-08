@@ -13,13 +13,13 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.10.1.25933
 engineinfo: {}
 name: GetIndicatorDBotScore
 outputs:
@@ -38,7 +38,8 @@ outputs:
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('GetIndicatorDBotScore', 'start', __line__())
 
 
 
@@ -54,6 +55,7 @@ script: |2
       'File SHA-256': DBotScoreType.FILE,
       'Email': DBotScoreType.EMAIL,
       'URL': DBotScoreType.URL,
+      'IPv6': DBotScoreType.IP
   }
 
 
@@ -98,7 +100,7 @@ script: |2
               data = resp[0].get("Contents")
 
               if not data:
-                  demisto.results("No results found for indicator {}.".format(indicator))
+                  demisto.results("No results found for indicator {} .".format(indicator))
                   continue
 
               dbot_scores = []
@@ -116,6 +118,8 @@ script: |2
 
   if __name__ in ('builtins', '__builtin__', '__main__'):
       main()
+
+  register_module_line('GetIndicatorDBotScore', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
