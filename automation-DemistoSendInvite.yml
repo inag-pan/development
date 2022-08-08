@@ -13,7 +13,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.1.7
+    itemVersion: 1.3.0
     packID: DemistoRESTAPI
     packPropagationLabels:
     - all
@@ -29,7 +29,7 @@ name: DemistoSendInvite
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   var res = executeCommand('demisto-api-get', {uri: '/roles'});
   if (isError(res[0])) {
       throw res[0].Contents;
