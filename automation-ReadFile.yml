@@ -19,13 +19,13 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python:2.7.18.24066
+dockerimage: demisto/python:2.7.18.27799
 enabled: true
 engineinfo: {}
 name: ReadFile
@@ -36,11 +36,12 @@ outputs:
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('ReadFile', 'start', __line__())
 
 
 
-  import chardet
+  import chardet  # type: ignore
 
 
   def get_file_encoding(filepath):
@@ -91,6 +92,8 @@ script: |2
           demisto.results(main())
       except Exception as e:
           return_error('Failed to run script - {}'.format(str(e)))
+
+  register_module_line('ReadFile', 'end', __line__())
 scripttarget: 0
 subtype: python2
 system: true
