@@ -23,13 +23,13 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 6.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.9.8.24399
 enabled: true
 engineinfo: {}
 name: CheckContextValue
@@ -44,6 +44,7 @@ pswd: ""
 runas: DBotWeakRole
 runonce: false
 script: |
+  register_module_line('CheckContextValue', 'start', __line__())
   from typing import Dict
 
 
@@ -99,6 +100,8 @@ script: |
 
   if __name__ in ('__main__', '__builtin__', 'builtins'):
       main()
+
+  register_module_line('CheckContextValue', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
