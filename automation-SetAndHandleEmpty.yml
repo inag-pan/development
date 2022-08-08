@@ -22,28 +22,41 @@ args:
   predefined:
   - "true"
   - "false"
-comment: Set a value in context under the key you entered. If no value is entered,
-  the script doesn't do anything.
+- auto: PREDEFINED
+  defaultValue: "false"
+  description: Whether to force the creation of the context. The default value is
+    "false".
+  name: force
+  predefined:
+  - "true"
+  - "false"
+comment: |-
+  Set a value in context under the key you entered. If no value is entered, the script doesn't do anything.
+
+  This automation runs using the default Limited User role, unless you explicitly change the permissions.
+  For more information, see the section about permissions here:
+  https://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-2/cortex-xsoar-admin/playbooks/automations.html
 commonfields:
   id: SetAndHandleEmpty
   version: -1
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.10.1.25933
 enabled: true
 engineinfo: {}
 name: SetAndHandleEmpty
 pswd: ""
-runas: DBotRole
+runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('SetAndHandleEmpty', 'start', __line__())
 
 
   from typing import Text
@@ -65,8 +78,9 @@ script: |2
       args = demisto.args()
       value = args.get('value')
       key = args.get('key')
+      force = args.get('force') == 'true'
       value = get_value(value, args.get('stringify') == 'true')
-      if value:
+      if value or force:
           human_readable = f'Key {key} set'
           context_entry = {key: value}
       else:
@@ -74,13 +88,18 @@ script: |2
           context_entry = {}
 
       if args.get('append') == 'false' and context_entry:
-          demisto.executeCommand('DeleteContext', {'key': key})
+          demisto.executeCommand('DeleteContext', {'key': key, 'subplaybook': 'auto'})
 
-      return_outputs(human_readable, context_entry)
+      return_results(CommandResults(
+          readable_output=human_readable,
+          outputs=context_entry,
+      ))
 
 
   if __name__ in ('__builtin__', 'builtins'):
       main()
+
+  register_module_line('SetAndHandleEmpty', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
