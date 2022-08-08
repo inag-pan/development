@@ -33,20 +33,21 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.10.4.30607
 enabled: true
 engineinfo: {}
 name: DockerHardeningCheck
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('DockerHardeningCheck', 'start', __line__())
 
 
 
@@ -54,6 +55,7 @@ script: |2
   import resource
   import re
   import time
+  from os.path import exists
 
 
   def big_string(size):
@@ -86,7 +88,7 @@ script: |2
           str -- error string if failed
       """
       size = mem_size_to_bytes(target_mem)
-      if check_type == "allocation":
+      if check_type == "allocate":
           LOG("starting process to check memory of size: {}".format(size))
           p = Process(target=big_string, args=(size, ))
           p.start()
@@ -96,7 +98,16 @@ script: |2
               return ("Succeeded allocating memory of size: {}. "
                       "It seems that you haven't limited the available memory to the docker container.".format(target_mem))
       else:
-          cgroup_file = "/sys/fs/cgroup/memory/memory.limit_in_bytes"
+          cgroup_file_v1 = "/sys/fs/cgroup/memory/memory.limit_in_bytes"
+          cgroup_file_v2 = "/sys/fs/cgroup/memory.max"
+          if exists(cgroup_file_v1):
+              cgroup_file = cgroup_file_v1
+          elif exists(cgroup_file_v2):
+              cgroup_file = cgroup_file_v2
+          else:
+              return ('Failed checking cgroup file, memory_check set to cgroup but neither v1 or v2'
+                      ' cgroup files found, verify cgroups is enabled.')
+
           try:
               with open(cgroup_file, "r") as f:
                   mem_bytes = int(f.read().strip())
@@ -238,6 +249,8 @@ script: |2
   # python2 uses __builtin__ python3 uses builtins
   if __name__ == "__builtin__" or __name__ == "builtins":
       main()
+
+  register_module_line('DockerHardeningCheck', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
