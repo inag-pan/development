@@ -8,26 +8,27 @@ args:
 - description: Entry ID contents to write into file.
   name: entryId
 comment: |
-  Will create a file (using the given data input or entry ID) and upload it to current investigation war room.
+  Deprecated. Use FileCreateAndUploadV2 instead. Will create a file (using the given data input or entry ID) and upload it to current investigation war room.
 commonfields:
   id: FileCreateAndUpload
   version: -1
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
+deprecated: true
 enabled: true
 engineinfo: {}
 name: FileCreateAndUpload
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |-
+script: |
   if (!args.data && !args.entryId) {
       return { ContentsFormat: formats.text, Type: entryTypes.error, Contents: 'Either data or entryId arguments need to be provided.' };
   }
