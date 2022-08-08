@@ -8,7 +8,7 @@
 	"hasRole": false,
 	"id": "health-status-dashboard",
 	"isCommon": true,
-	"itemVersion": "1.13.40",
+	"itemVersion": "1.31.14",
 	"layout": [
 		{
 			"forceRange": false,
@@ -38,7 +38,7 @@
 				"id": "3",
 				"isPredefined": true,
 				"itemVersion": "",
-				"modified": "2018-03-23T15:16:10.634227Z",
+				"modified": "2018-03-23T18:16:10.634227+03:00",
 				"name": "Disk Used Percentage",
 				"packID": "",
 				"params": {
@@ -104,7 +104,7 @@
 				"id": "4",
 				"isPredefined": true,
 				"itemVersion": "",
-				"modified": "2018-03-23T15:17:18.728545Z",
+				"modified": "2018-03-23T18:17:18.728545+03:00",
 				"name": "CPU Use Percentage",
 				"packID": "",
 				"params": {
@@ -170,7 +170,7 @@
 				"id": "12",
 				"isPredefined": true,
 				"itemVersion": "",
-				"modified": "2018-03-23T15:43:35.777902Z",
+				"modified": "2018-03-23T18:43:35.777902+03:00",
 				"name": "Memory Use Percentage",
 				"packID": "",
 				"params": {
@@ -237,7 +237,7 @@
 				"id": "cpu-percentage-trend",
 				"isPredefined": true,
 				"itemVersion": "",
-				"modified": "2018-09-07T10:26:12.309081Z",
+				"modified": "2018-09-07T13:26:12.309081+03:00",
 				"name": "Server CPU Usage % (last 24h)",
 				"packID": "",
 				"params": {
@@ -287,7 +287,7 @@
 				"id": "memory-percentage-trend",
 				"isPredefined": true,
 				"itemVersion": "",
-				"modified": "2018-09-07T10:26:12.335105Z",
+				"modified": "2018-09-07T13:26:12.335105+03:00",
 				"name": "Server Memory Usage % (last 24h)",
 				"packID": "",
 				"params": {
