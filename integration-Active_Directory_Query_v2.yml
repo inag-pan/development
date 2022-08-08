@@ -3,11 +3,11 @@ commonfields:
   id: Active Directory Query v2
   version: -1
 configuration:
-- display: Server IP address (e.g., 192.168.0.1)
+- display: Server IP address (for example, 192.168.0.1)
   name: server_ip
   required: true
   type: 0
-- display: Port. If not specified, default the port is 389, or 636 for LDAPS.
+- display: Port. If not specified, the default port is 389, or 636 for LDAPS.
   name: port
   required: false
   type: 0
@@ -49,7 +49,7 @@ configuration:
   type: 0
 - additionalinfo: Used in the IAM commands.
   defaultvalue: User Profile - Active Directory (Outgoing)
-  display: Ougoing Mapper
+  display: Outgoing Mapper
   name: mapper-out
   required: true
   type: 0
@@ -57,24 +57,24 @@ configuration:
   name: group-cn
   required: false
   type: 0
-- additionalinfo: If true the user will be created when the passed User Profile doesn't
-    exist in AD. Used in IAM commands only.
+- additionalinfo: If true, the user is created if the user profile doesn't exist in
+    AD. Used in IAM commands only.
   defaultvalue: "true"
-  display: Create if does not exists
+  display: Create user if does not exist
   name: create-if-not-exists
   required: false
   type: 8
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.3.6
+    itemVersion: 1.4.15
     packID: Active_Directory_Query
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-description: Active Directory Query integration enables you to access and manage Active
-  Directory objects (users, contacts, and computers).
+description: The Active Directory Query integration enables you to access and manage
+  Active Directory objects (users, contacts, and computers).
 detaileddescription: |-
   Active Directory search uses paging. You set the page size by specifying the 'page size' parameter in the instance settings.
 
@@ -91,7 +91,7 @@ script:
     - description: The username (samAccountName) of the user to modify.
       name: username
       required: true
-    - description: Root (e.g., DC=domain,DC=com)
+    - description: Root (for example, DC=domain,DC=com)
       name: base-dn
     description: Expires the password of an Active Directory user.
     name: ad-expire-password
@@ -103,18 +103,18 @@ script:
         to change the password after login.
       name: password
       required: true
-    - description: The user's DN.
+    - description: The user DN.
       name: user-dn
       required: true
-    - description: The display name of the user.
+    - description: The user display name.
       name: display-name
     - description: A short description of the user.
       name: description
-    - description: User email.
+    - description: The user email.
       name: email
-    - description: The telephone number of the user.
+    - description: The user telephone number.
       name: telephone-number
-    - description: The job title of the user.
+    - description: The user job title.
       name: title
     - description: Sets basic or custom attributes of the user object. For example,
         custom-attributes="{\"notes\":\"a note about the contact\",\"company\":\"company
@@ -126,16 +126,16 @@ script:
   - arguments:
     - description: 'Enables you to define search criteria in the Query Active Directory
         using Active Directory syntax. For example, the following query searches for
-        all user objects, except Andy: "(&(objectCategory=person)(objectClass=user)(!(cn=andy)))".
-        NOTE if you have special characters such as "*","(",or "\" the character must
-        be preceded by two backslashes "\\". For example, to use "*", type "\\*".
+        all user objects except Andy: "(&(objectCategory=person)(objectClass=user)(!(cn=andy)))".
+        Note: If you have special characters such as "*","(",or "\" the character
+        must be preceded by two backslashes "\\". For example, to use "*", type "\\*".
         For more information about search filters, see syntax: https://docs.microsoft.com/en-us/windows/win32/adsi/search-filter-syntax'
       name: filter
       required: true
     - description: Root. For example, DC=domain,DC=com). By default, the Base DN configured
         for the instance is used.
       name: base-dn
-    - description: CSV list of the object attributes to return. For example, "dn,memberOf".
+    - description: A CSV list of the object attributes to return. For example, "dn,memberOf".
         To return all object attributes, specify 'ALL'.
       name: attributes
     - defaultValue: "50"
@@ -145,8 +145,7 @@ script:
       name: time-limit
     - auto: PREDEFINED
       defaultValue: "yes"
-      description: Whether to output the search results to the context. Default is
-        yes.
+      description: Whether to output the search results to the context.
       name: context-output
       predefined:
       - "yes"
@@ -167,7 +166,7 @@ script:
     - description: The name of the computer to add to the group. If this argument
         is not specified, the username argument must be specified.
       name: computer-name
-    - description: The name of the group for which to add the user.
+    - description: The name of the group to add the user to.
       name: group-cn
       required: true
     - description: Root. For example, DC=domain,DC=com. By default, the Base DN configured
@@ -182,7 +181,7 @@ script:
     - description: The name of the computer to remove from the group. If this argument
         is not specified, the username argument must be specified.
       name: computer-name
-    - description: The name of the group for which to remove the user.
+    - description: The name of the group to remove the user from.
       name: group-cn
       required: true
     - description: Root. For example, DC=domain,DC=com). By default, the Base DN configured
@@ -198,7 +197,7 @@ script:
         mail, and so on.
       name: attribute-name
       required: true
-    - description: The value of the attribute for which to change.
+    - description: The value to change the attribute to.
       name: attribute-value
       required: true
     - description: Root. For example, DC=domain,DC=com. By default, the Base DN configured
@@ -213,33 +212,33 @@ script:
     description: Deletes an Active Directory user.
     name: ad-delete-user
   - arguments:
-    - description: The contact's DN.
+    - description: The contact DN.
       name: contact-dn
       required: true
-    - description: The contact's display name.
+    - description: The contact display name.
       name: display-name
     - description: The short description of the contact.
       name: description
     - description: The email address of the contact.
       name: email
-    - description: The contact's telephone number.
+    - description: The contact telephone number.
       name: telephone-number
     - description: Sets basic or custom attributes of the contact object. For example,
         custom-attributes="{\"notes\":\"some note about the contact\",\"company\":\"some
         company\"}."
       name: custom-attributes
-    - description: The job title of the contact.
+    - description: The contact job title.
       name: title
     description: Creates an Active Directory contact.
     name: ad-create-contact
   - arguments:
-    - description: The contact's DN.
+    - description: The contact DN.
       name: contact-dn
       required: true
     - description: The attribute name to update.
       name: attribute-name
       required: true
-    - description: The attribute value to be updated.
+    - description: The attribute value to update.
       name: attribute-value
       required: true
     description: Updates attributes of an existing Active Directory contact.
@@ -260,6 +259,12 @@ script:
     - description: Root. For example, DC=domain,DC=com). By default, the Base DN configured
         for the instance is used.
       name: base-dn
+    - auto: PREDEFINED
+      description: If true, the command will enable the user with his restored options
+      name: restore_user
+      predefined:
+      - "true"
+      - "false"
     description: Enables a previously disabled Active Directory account.
     name: ad-enable-account
   - arguments:
@@ -311,7 +316,7 @@ script:
     - description: Queries users by the samAccountName attribute.
       name: sAMAccountName
     - defaultValue: "20"
-      description: The maximum number of objects to return. Default is 20.
+      description: The maximum number of objects to return.
       name: limit
     - description: Queries by the user's email address.
       name: email
@@ -329,51 +334,134 @@ script:
     name: ad-get-user
     outputs:
     - contextPath: ActiveDirectory.Users.dn
-      description: The distinguished name of the user.
+      description: The user distinguished name.
       type: string
     - contextPath: ActiveDirectory.Users.displayName
-      description: The display name of the user.
+      description: The user display name.
       type: string
     - contextPath: ActiveDirectory.Users.name
-      description: The common name of the user.
+      description: The user common name.
       type: string
     - contextPath: ActiveDirectory.Users.sAMAccountName
-      description: The sAMAccountName of the user.
+      description: The user sAMAccountName.
       type: string
     - contextPath: ActiveDirectory.Users.userAccountControl
-      description: The account control flag of the user.
+      description: The user account control flag.
       type: number
     - contextPath: ActiveDirectory.Users.mail
-      description: The email address of the user.
+      description: The user email address.
       type: string
     - contextPath: ActiveDirectory.Users.manager
       description: The manager of the user.
       type: string
     - contextPath: ActiveDirectory.Users.memberOf
-      description: Groups for which the user is a member.
+      description: Groups in which the user is a member.
       type: string
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.SCRIPT
+      description: Whether the login script is run. Works for *Windows Server 2012
+        R2*.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.ACCOUNTDISABLE
+      description: Whether the user account is disabled. Works for *Windows Server
+        2012 R2*.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.HOMEDIR_REQUIRED
+      description: Whether the home folder is required. Works for *Windows Server
+        2012 R2*.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.LOCKOUT
+      description: Whether the user is locked out. Works for *Windows Server 2012
+        R2*.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.PASSWD_NOTREQD
+      description: Whether the password is required. Works for *Windows Server 2012
+        R2*.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.PASSWD_CANT_CHANGE
+      description: Whether the user can change the password. Works for *Windows Server
+        2012 R2*.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.ENCRYPTED_TEXT_PWD_ALLOWED
+      description: Whether the user can send an encrypted password. Works for *Windows
+        Server 2012 R2*.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.TEMP_DUPLICATE_ACCOUNT
+      description: Whether this is an account for users whose primary account is in
+        another domain. Works for *Windows Server 2012 R2*.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.NORMAL_ACCOUNT
+      description: Whether this is a default account type that represents a typical
+        user. Works for *Windows Server 2012 R2*.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.INTERDOMAIN_TRUST_ACCOUNT
+      description: Whether the account is permitted to trust a system domain that
+        trusts other domains. Works for *Windows Server 2012 R2*.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.WORKSTATION_TRUST_ACCOUNT
+      description: Whether this is a computer account for a computer running Microsoft
+        Windows NT 4.0 Workstation, Microsoft Windows NT 4.0 Server, Microsoft Windows
+        2000 Professional, or Windows 2000 Server and is a member of this domain.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.SERVER_TRUST_ACCOUNT
+      description: Whether this is a computer account for a domain controller that
+        is a member of this domain. Works for *Windows Server 2012 R2*.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.DONT_EXPIRE_PASSWORD
+      description: Whether to never expire the password on the account.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.MNS_LOGON_ACCOUNT
+      description: Whether this is an MNS login account.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.SMARTCARD_REQUIRED
+      description: Whether to force the user to log in by using a smart card.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.TRUSTED_FOR_DELEGATION
+      description: Whether the service account (the user or computer account) under
+        which a service runs is trusted for Kerberos delegation.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.NOT_DELEGATED
+      description: Whether the security context of the user isn't delegated to a service
+        even if the service account is set as trusted for Kerberos delegation.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.USE_DES_KEY_ONLY
+      description: Whether to restrict this principal to use only Data Encryption
+        Standard (DES) encryption types for keys.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.DONT_REQ_PREAUTH
+      description: Whether this account require Kerberos pre-authentication for logging
+        on.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.PASSWORD_EXPIRED
+      description: Whether the user password expired.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.TRUSTED_TO_AUTH_FOR_DELEGATION
+      description: Whether the account is enabled for delegation.
+      type: bool
+    - contextPath: ActiveDirectory.Users.userAccountControlFields.PARTIAL_SECRETS_ACCOUNT
+      description: Whether the account is a read-only domain controller (RODC).
+      type: bool
     - contextPath: Account.DisplayName
-      description: The display name of the user.
+      description: The user display name.
       type: string
     - contextPath: Account.Groups
       description: Groups for which the user is a member.
       type: string
     - contextPath: Account.Manager
-      description: The manager of the user.
+      description: The user manager.
       type: string
     - contextPath: Account.ID
-      description: The distinguished name of the user.
+      description: The user distinguished name.
       type: string
     - contextPath: Account.Username
-      description: The samAccountName of the user.
+      description: The user samAccountName.
       type: string
     - contextPath: Account.Email
-      description: The email address of the user.
+      description: The user email address.
       type: string
   - arguments:
     - description: The computer's DN.
       name: dn
-    - description: The name of the computer for which to return information.
+    - description: The name of the computer to return information about.
       name: name
     - description: Adds AD attributes of the resulting objects to the default attributes.
       name: attributes
@@ -388,15 +476,15 @@ script:
     name: ad-get-computer
     outputs:
     - contextPath: ActiveDirectory.Computers.dn
-      description: The distinguished name of the computer.
+      description: The computer distinguished name.
     - contextPath: ActiveDirectory.Computers.memberOf
       description: Groups for which the computer is listed.
     - contextPath: ActiveDirectory.Computers.name
-      description: The name of the computer.
+      description: The computer name.
     - contextPath: Endpoint.ID
-      description: The DN of the computer.
+      description: The computer DN.
     - contextPath: Endpoint.Hostname
-      description: The name of the computer.
+      description: The computer host name.
     - contextPath: Endpoint.Groups
       description: Groups for which the computer is listed as a member.
   - arguments:
@@ -421,7 +509,8 @@ script:
       name: time_limit
     - auto: PREDEFINED
       defaultValue: "false"
-      description: Disable recursive retrieval of group memberships of a user.
+      description: Whether to disable recursive retrieval of group memberships of
+        a user.
       name: disable-nested-search
       predefined:
       - "false"
@@ -434,13 +523,13 @@ script:
     name: ad-get-group-members
     outputs:
     - contextPath: ActiveDirectory.Groups.dn
-      description: The DN of the group.
+      description: The group DN.
       type: string
     - contextPath: ActiveDirectory.Groups.members.dn
-      description: The DN of the group member.
+      description: The group member DN.
       type: string
     - contextPath: ActiveDirectory.Groups.members.category
-      description: The category of the group members.
+      description: The group members category.
       type: string
   - arguments:
     - description: The Active Directory name of the group.
@@ -489,96 +578,96 @@ script:
     name: iam-create-user
     outputs:
     - contextPath: IAM.UserProfile
-      description: The user's profile.
+      description: The user profile.
       type: Unknown
     - contextPath: IAM.Vendor.active
-      description: If true the employee's status is active, otherwise false.
+      description: If true, the employee status is active.
       type: Boolean
     - contextPath: IAM.Vendor.brand
-      description: Name of the integration.
+      description: The integration name.
       type: String
     - contextPath: IAM.Vendor.details
-      description: Gives the user information if the API was successful, otherwise
-        error information.
+      description: Tells the user if the API was successful, otherwise provides error
+        information.
       type: Unknown
     - contextPath: IAM.Vendor.email
-      description: The employee's email address.
+      description: The employee email address.
       type: String
     - contextPath: IAM.Vendor.errorCode
-      description: HTTP error response code.
+      description: The HTTP error response code.
       type: Number
     - contextPath: IAM.Vendor.errorMessage
-      description: Reason why the API failed.
+      description: The reason the API failed.
       type: String
     - contextPath: IAM.Vendor.id
-      description: The employee's user ID in the app.
+      description: The employee user ID in the app.
       type: String
     - contextPath: IAM.Vendor.instanceName
-      description: Name of the integration instance.
+      description: The name of the integration instance.
       type: Unknown
     - contextPath: IAM.Vendor.success
-      description: If true, the command was executed successfully, otherwise false.
+      description: If true, the command executed successfully.
       type: Boolean
     - contextPath: IAM.Vendor.username
-      description: The employee's username in the app.
+      description: The employee username in the app.
       type: String
     - contextPath: IAM.Vendor.action
       description: The command name.
       type: String
   - arguments:
     - description: A User Profile indicator that contains user information, such as
-        name, email address, etc.
+        name and email address.
       name: user-profile
       required: true
     description: Retrieves a single user resource.
     name: iam-get-user
     outputs:
     - contextPath: IAM.UserProfile
-      description: The user's profile.
+      description: The user profile.
       type: Unknown
     - contextPath: IAM.Vendor.active
-      description: If true the employee's status is active, otherwise false.
+      description: If true the employee status is active.
       type: Boolean
     - contextPath: IAM.Vendor.brand
-      description: Name of the integration.
+      description: The integration name.
       type: String
     - contextPath: IAM.Vendor.details
-      description: Gives the user information if the API was successful, otherwise
-        error information.
+      description: Tells the user if the API was successful, otherwise provides error
+        information.
       type: Unknown
     - contextPath: IAM.Vendor.email
-      description: The employee's email address.
+      description: The employee email address.
       type: String
     - contextPath: IAM.Vendor.errorCode
-      description: HTTP error response code.
+      description: The HTTP error response code.
       type: Number
     - contextPath: IAM.Vendor.errorMessage
-      description: Reason why the API failed.
+      description: The reason the API failed.
       type: String
     - contextPath: IAM.Vendor.id
-      description: The employee's user ID in the app.
+      description: The employee user ID in the app.
       type: String
     - contextPath: IAM.Vendor.instanceName
-      description: Name of the integration instance.
+      description: The integration instance name.
       type: Unknown
     - contextPath: IAM.Vendor.success
-      description: If true the command was executed successfully, otherwise false.
+      description: If true, the command was executed successfully.
       type: Boolean
     - contextPath: IAM.Vendor.username
-      description: The employee's username in the app.
+      description: The employee username in the app.
       type: String
     - contextPath: IAM.Vendor.action
       description: The command name.
       type: String
   - arguments:
     - description: A User Profile indicator that contains user information, such as
-        name, email address, etc.
+        name and email address.
       name: user-profile
       required: true
     - auto: PREDEFINED
       defaultValue: "true"
-      description: When set to true, after the command execution the status of the
-        user in the 3rd-party integration will be active.
+      description: When set to true, after the command executes the user status in
+        the 3rd-party integration is active.
       name: allow-enable
       predefined:
       - "true"
@@ -588,45 +677,45 @@ script:
     name: iam-update-user
     outputs:
     - contextPath: IAM.UserProfile
-      description: The user's profile
+      description: The user profile
       type: Unknown
     - contextPath: IAM.Vendor.active
-      description: Gives the active status of user. Can be true of false
+      description: Gives the active status of user. Can be true or false.
       type: Boolean
     - contextPath: IAM.Vendor.brand
-      description: Name of the Integration
+      description: The integration name.
       type: String
     - contextPath: IAM.Vendor.details
-      description: Gives the user information if the API was successful, otherwise
-        error information.
+      description: Tells the user if the API was successful, otherwise provides error
+        information.
       type: Unknown
     - contextPath: IAM.Vendor.email
-      description: The employee's email address.
+      description: The employee email address.
       type: String
     - contextPath: IAM.Vendor.errorCode
-      description: HTTP error response code.
+      description: The HTTP error response code.
       type: Number
     - contextPath: IAM.Vendor.errorMessage
-      description: Reason why the API failed.
+      description: The reason the API failed.
       type: String
     - contextPath: IAM.Vendor.id
-      description: The employee's user ID in the app.
+      description: The employee user ID in the app.
       type: String
     - contextPath: IAM.Vendor.instanceName
-      description: Name of the integration instance.
+      description: The integration instance name.
       type: Unknown
     - contextPath: IAM.Vendor.success
-      description: If true, the command was executed successfully, otherwise false.
+      description: If true, the command executed successfully.
       type: Boolean
     - contextPath: IAM.Vendor.username
-      description: The employee's username in the app.
+      description: The employee username in the app.
       type: String
     - contextPath: IAM.Vendor.action
       description: The command name.
       type: String
   - arguments:
     - description: A User Profile indicator that contains user information, such as
-        name, email address, etc.
+        name and email address.
       name: user-profile
       required: true
     description: Disables a user.
@@ -634,51 +723,81 @@ script:
     name: iam-disable-user
     outputs:
     - contextPath: IAM.UserProfile
-      description: The user's profile
+      description: The user profile.
       type: Unknown
     - contextPath: IAM.Vendor.active
-      description: Gives the active status of user. Can be true of false
+      description: Gives the active status of user. Can be true or false.
       type: Boolean
     - contextPath: IAM.Vendor.brand
-      description: Name of the Integration
+      description: The integration name.
       type: String
     - contextPath: IAM.Vendor.details
-      description: Gives the user information if the API was successful, otherwise
-        error information.
+      description: Tells the user if the API was successful, otherwise provides error
+        information.
       type: Unknown
     - contextPath: IAM.Vendor.email
-      description: The employee's email address.
+      description: The employee email address.
       type: String
     - contextPath: IAM.Vendor.errorCode
-      description: HTTP error response code.
+      description: The HTTP error response code.
       type: Number
     - contextPath: IAM.Vendor.errorMessage
-      description: Reason why the API failed.
+      description: The reason the API failed.
       type: String
     - contextPath: IAM.Vendor.id
-      description: The employee's user ID in the app.
+      description: The employee user ID in the app.
       type: String
     - contextPath: IAM.Vendor.instanceName
-      description: Name of the integration instance.
+      description: The integration instance name.
       type: Unknown
     - contextPath: IAM.Vendor.success
-      description: If true, the command was executed successfully, otherwise false.
+      description: If true, the command was executed successfully.
       type: Boolean
     - contextPath: IAM.Vendor.username
-      description: The employee's username in the app.
+      description: The employee username in the app.
       type: String
     - contextPath: IAM.Vendor.action
       description: The command name.
       type: String
   - arguments: []
     description: Retrieves a User Profile schema which holds all of the user fields
-      within the application. Used for outgoing-mapping through the Get Schema option.
+      in the application. Used for outgoing mapping through the Get Schema option.
     name: get-mapping-fields
-  dockerimage: demisto/ldap:1.0.0.23980
+  - arguments:
+    - description: The group name of the group to update (sAMAccountName).
+      name: groupname
+    - description: The name of the attribute to modify. For example, Description and
+        displayName.
+      name: attributename
+      required: true
+    - description: The value of the attribute to change.
+      name: attributevalue
+      required: true
+    - description: Root. For example, DC=domain,DC=com. By default, the Base DN configured
+        for the instance is used.
+      name: basedn
+    description: Updates attributes of an existing Active Directory group.
+    name: ad-update-group
+  - arguments:
+    - description: The sAMAccountName of the user to modify.
+      name: username
+      required: true
+    - auto: PREDEFINED
+      description: Value to set "Password Never Expire".
+      name: value
+      predefined:
+      - "true"
+      - "false"
+      required: true
+    description: Modifies the AD account attribute "Password Never Expire".
+    execution: true
+    name: ad-modify-password-never-expire
+  dockerimage: demisto/py3-tools:1.0.0.31193
   ismappable: true
   isremotesyncout: true
   runonce: false
-  script: |2
+  script: |
+    register_module_line('Active Directory Query v2', 'start', __line__())
 
 
     from typing import List, Dict, Optional
@@ -692,6 +811,9 @@ script:
                                  set_library_log_hide_sensitive_data, EXTENDED)
     from ldap3.utils.conv import escape_filter_chars
 
+    CIPHERS_STRING = '@SECLEVEL=1:ECDHE+AESGCM:ECDHE+CHACHA20:DHE+AESGCM:DHE+CHACHA20:ECDH+AESGCM:DH+AESGCM:ECDH+AES:DH+AES:' \
+                     'RSA+ANESGCM:RSA+AES:!aNULL:!eNULL:!MD5:!DSS'
+
     # global connection
     conn: Optional[Connection] = None
 
@@ -703,7 +825,7 @@ script:
     DEFAULT_OUTGOING_MAPPER = "User Profile - Active Directory (Outgoing)"
     DEFAULT_INCOMING_MAPPER = "User Profile - Active Directory (Incoming)"
 
-    COOMON_ACCOUNT_CONTROL_FLAGS = {
+    COMMON_ACCOUNT_CONTROL_FLAGS = {
         512: "Enabled Account",
         514: "Disabled account",
         544: "Password Not Required",
@@ -762,7 +884,11 @@ script:
 
         if secure_connection == "TLS":
             demisto.debug(f"initializing sever with TLS (unsecure: {unsecure}). port: {port or 'default(636)'}")
-            tls = Tls(validate=ssl.CERT_NONE)
+            if unsecure:
+                # Add support for all CIPHERS_STRING
+                tls = Tls(validate=ssl.CERT_NONE, ciphers=CIPHERS_STRING)
+            else:
+                tls = Tls(validate=ssl.CERT_NONE)
             if port:
                 return Server(host, port=port, use_ssl=unsecure, tls=tls)
             return Server(host, use_ssl=unsecure, tls=tls)
@@ -771,19 +897,55 @@ script:
             # intialize server with ssl
             # port is configured by default as 389 or as 636 for LDAPS if not specified in configuration
             demisto.debug(f"initializing sever with SSL (unsecure: {unsecure}). port: {port or 'default(636)'}")
+            # If Trust any certificate is false
             if not unsecure:
                 demisto.debug("will require server certificate.")
                 tls = Tls(validate=ssl.CERT_REQUIRED, ca_certs_file=os.environ.get('SSL_CERT_FILE'))
                 if port:
                     return Server(host, port=port, use_ssl=True, tls=tls)
                 return Server(host, use_ssl=True, tls=tls)
-            if port:
-                return Server(host, port=port, use_ssl=True)
-            return Server(host, use_ssl=True)
+            else:
+                # Add support for all CIPHERS_STRING
+                tls = Tls(ciphers=CIPHERS_STRING)
+                if port:
+                    return Server(host, port=port, use_ssl=True, tls=tls)
+                return Server(host, use_ssl=True, tls=tls)
         demisto.debug(f"initializing server without secure connection. port: {port or 'default(389)'}")
         if port:
             return Server(host, port=port)
         return Server(host)
+
+
+    def user_account_to_boolean_fields(user_account_control):
+        """
+        parse the userAccountControl into boolean values.
+        following the values from:
+        https://docs.microsoft.com/en-US/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
+        """
+        return {
+            'SCRIPT': bool(user_account_control & 0x0001),
+            'ACCOUNTDISABLE': bool(user_account_control & 0x0002),
+            'HOMEDIR_REQUIRED': bool(user_account_control & 0x0008),
+            'LOCKOUT': bool(user_account_control & 0x0010),
+            'PASSWD_NOTREQD': bool(user_account_control & 0x0020),
+            'PASSWD_CANT_CHANGE': bool(user_account_control & 0x0040),
+            'ENCRYPTED_TEXT_PWD_ALLOWED': bool(user_account_control & 0x0080),
+            'TEMP_DUPLICATE_ACCOUNT': bool(user_account_control & 0x0100),
+            'NORMAL_ACCOUNT': bool(user_account_control & 0x0200),
+            'INTERDOMAIN_TRUST_ACCOUNT': bool(user_account_control & 0x0800),
+            'WORKSTATION_TRUST_ACCOUNT': bool(user_account_control & 0x1000),
+            'SERVER_TRUST_ACCOUNT': bool(user_account_control & 0x2000),
+            'DONT_EXPIRE_PASSWORD': bool(user_account_control & 0x10000),
+            'MNS_LOGON_ACCOUNT': bool(user_account_control & 0x20000),
+            'SMARTCARD_REQUIRED': bool(user_account_control & 0x40000),
+            'TRUSTED_FOR_DELEGATION': bool(user_account_control & 0x80000),
+            'NOT_DELEGATED': bool(user_account_control & 0x100000),
+            'USE_DES_KEY_ONLY': bool(user_account_control & 0x200000),
+            'DONT_REQ_PREAUTH': bool(user_account_control & 0x400000),
+            'PASSWORD_EXPIRED': bool(user_account_control & 0x800000),
+            'TRUSTED_TO_AUTH_FOR_DELEGATION': bool(user_account_control & 0x1000000),
+            'PARTIAL_SECRETS_ACCOUNT': bool(user_account_control & 0x04000000),
+        }
 
 
     def account_entry(person_object, custom_attributes):
@@ -1047,7 +1209,7 @@ script:
         Args:
             search_base: the location in the DIT where the search will start
             search_filter: LDAP query string
-            attributes: the attributes to specify for each entrxy found in the DIT
+            attributes: the attributes to specify for each entry found in the DIT
 
         """
         assert conn is not None
@@ -1072,8 +1234,8 @@ script:
 
             entries_left_to_fetch -= len(conn.entries)
             total_entries += len(conn.entries)
-            cookie = conn.result['controls']['1.2.840.113556.1.4.319']['value']['cookie']
-            time_diff = (start - datetime.now()).seconds
+            cookie = dict_safe_get(conn.result, ['controls', '1.2.840.113556.1.4.319', 'value', 'cookie'])
+            time_diff = (datetime.now() - start).seconds
 
             entries.extend(conn.entries)
 
@@ -1259,11 +1421,13 @@ script:
 
         accounts = [account_entry(entry, custom_attributes) for entry in entries['flat']]
 
-        if args.get('user-account-control-out', '') == 'true':
+        for user in entries['flat']:
+            user_account_control = user.get('userAccountControl')[0]
+            user['userAccountControlFields'] = user_account_to_boolean_fields(user_account_control)
+
             # display a literal translation of the numeric account control flag
-            for i, user in enumerate(entries['flat']):
-                flag_no = user.get('userAccountControl')[0]
-                entries['flat'][i]['userAccountControl'] = COOMON_ACCOUNT_CONTROL_FLAGS.get(flag_no) or flag_no
+            if args.get('user-account-control-out', '') == 'true':
+                user['userAccountControl'] = COMMON_ACCOUNT_CONTROL_FLAGS.get(user_account_control) or user_account_control
 
         demisto_entry = {
             'ContentsFormat': formats['json'],
@@ -1293,7 +1457,9 @@ script:
             user_profile_delta = args.get('user-profile-delta')
             default_attribute = "sAMAccountName"
 
-            iam_user_profile = IAMUserProfile(user_profile=user_profile, user_profile_delta=user_profile_delta)
+            iam_user_profile = IAMUserProfile(user_profile=user_profile, user_profile_delta=user_profile_delta,
+                                              mapper=mapper_out,
+                                              incident_type=IAMUserProfile.UPDATE_INCIDENT_TYPE)
 
             # we use the outgoing mapper to get all the AD attributes which will be later passed to search_with_paging()
             ad_user = iam_user_profile.map_object(mapper_name=mapper_out,
@@ -1553,7 +1719,8 @@ script:
 
             user_profile = args.get("user-profile")
             user_profile_delta = args.get('user-profile-delta')
-            iam_user_profile = IAMUserProfile(user_profile=user_profile, user_profile_delta=user_profile_delta)
+            iam_user_profile = IAMUserProfile(user_profile=user_profile, user_profile_delta=user_profile_delta,
+                                              mapper=mapper_out, incident_type=IAMUserProfile.CREATE_INCIDENT_TYPE)
             ad_user = iam_user_profile.map_object(mapper_name=mapper_out, incident_type=IAMUserProfile.CREATE_INCIDENT_TYPE)
 
             sam_account_name = ad_user.get("sAMAccountName")
@@ -1608,13 +1775,15 @@ script:
 
 
     def get_iam_user_profile(user_profile, mapper_out):
-        iam_user_profile = IAMUserProfile(user_profile=user_profile)
+        iam_user_profile = IAMUserProfile(user_profile=user_profile, mapper=mapper_out,
+                                          incident_type=IAMUserProfile.UPDATE_INCIDENT_TYPE)
         ad_user = iam_user_profile.map_object(mapper_name=mapper_out, incident_type=IAMUserProfile.UPDATE_INCIDENT_TYPE)
         sam_account_name = ad_user.get("sAMAccountName")
 
         old_user_data = iam_user_profile.get_attribute('olduserdata')
         if old_user_data:
-            iam_old_user_profile = IAMUserProfile(user_profile=old_user_data)
+            iam_old_user_profile = IAMUserProfile(user_profile=old_user_data, mapper=mapper_out,
+                                                  incident_type=IAMUserProfile.UPDATE_INCIDENT_TYPE)
             ad_old_user = iam_old_user_profile.map_object(mapper_name=mapper_out,
                                                           incident_type=IAMUserProfile.UPDATE_INCIDENT_TYPE)
             sam_account_name = ad_old_user.get("sAMAccountName") or sam_account_name
@@ -1828,6 +1997,26 @@ script:
         demisto.results(demisto_entry)
 
 
+    def update_group(default_base_dn):
+        args = demisto.args()
+
+        sam_account_name = args.get('groupname')
+        attribute_name = args.get('attributename')
+        attribute_value = args.get('attributevalue')
+        search_base = args.get('basedn') or default_base_dn
+        dn = group_dn(sam_account_name, search_base)
+
+        modification = {attribute_name: [('MODIFY_REPLACE', attribute_value)]}
+        modify_object(dn, modification)
+
+        demisto_entry = {
+            'ContentsFormat': formats['text'],
+            'Type': entryTypes['note'],
+            'Contents': f"Updated group's {attribute_name} to {attribute_value} "
+        }
+        demisto.results(demisto_entry)
+
+
     def update_contact():
         args = demisto.args()
 
@@ -1915,17 +2104,68 @@ script:
         demisto.results(demisto_entry)
 
 
-    def enable_user(default_base_dn):
+    def restore_user(default_base_dn: str, page_size: int) -> int:
+        """
+             Restore the user UserAccountControl flags.
+             Args:
+                 default_base_dn (str): The default base dn.
+                 page_size (int): The page size to query.
+             Returns:
+                 flags (int): The UserAccountControl flags.
+         """
         args = demisto.args()
 
+        # default query - list all users
+        query = "(&(objectClass=User)(objectCategory=person))"
+
+        # query by sAMAccountName
+        if args.get('username') or args.get('sAMAccountName'):
+            if args.get('username'):
+                username = escape_filter_chars(args['username'])
+            else:
+                username = escape_filter_chars(args['sAMAccountName'])
+            query = "(&(objectClass=User)(objectCategory=person)(sAMAccountName={}))".format(username)
+
+        attributes = list(set(DEFAULT_PERSON_ATTRIBUTES))
+
+        entries = search_with_paging(
+            query,
+            default_base_dn,
+            attributes=attributes,
+            size_limit=0,
+            page_size=page_size
+        )
+        if entries.get('flat'):
+            return entries.get('flat')[0].get('userAccountControl')[0]
+        return 0
+
+
+    def turn_disable_flag_off(flags: int) -> int:
+        """
+            Turn off the ACCOUNTDISABLE flag in UserAccountControl flags.
+            https://docs.microsoft.com/en-US/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
+             Args:
+                 flags (int): The UserAccountControl flags to update.
+             Returns:
+                 flags (int): The UserAccountControl flags with the ACCOUNTDISABLE turned off.
+         """
+        return flags & ~(1 << (2 - 1))
+
+
+    def enable_user(default_base_dn, default_page_size):
+        args = demisto.args()
+        account_options = NORMAL_ACCOUNT
         # get user DN
         sam_account_name = args.get('username')
         search_base = args.get('base-dn') or default_base_dn
         dn = user_dn(sam_account_name, search_base)
 
+        if args.get('restore_user'):
+            account_options = restore_user(search_base, default_page_size)
+
         # modify user
         modification = {
-            'userAccountControl': [('MODIFY_REPLACE', NORMAL_ACCOUNT)]
+            'userAccountControl': [('MODIFY_REPLACE', turn_disable_flag_off(account_options))]
         }
         modify_object(dn, modification)
 
@@ -1937,17 +2177,18 @@ script:
         demisto.results(demisto_entry)
 
 
-    def disable_user(default_base_dn):
+    def disable_user(default_base_dn, default_page_size):
         args = demisto.args()
 
         # get user DN
         sam_account_name = args.get('username')
         search_base = args.get('base-dn') or default_base_dn
         dn = user_dn(sam_account_name, search_base)
+        account_options = restore_user(search_base, default_page_size)
 
         # modify user
         modification = {
-            'userAccountControl': [('MODIFY_REPLACE', DISABLED_ACCOUNT)]
+            'userAccountControl': [('MODIFY_REPLACE', (account_options | DISABLED_ACCOUNT))]
         }
         modify_object(dn, modification)
 
@@ -1987,7 +2228,8 @@ script:
         try:
             user_profile = args.get("user-profile")
             user_profile_delta = args.get('user-profile-delta')
-            iam_user_profile = IAMUserProfile(user_profile=user_profile, user_profile_delta=user_profile_delta)
+            iam_user_profile = IAMUserProfile(user_profile=user_profile, user_profile_delta=user_profile_delta,
+                                              mapper=mapper_out, incident_type=IAMUserProfile.UPDATE_INCIDENT_TYPE)
             ad_user = iam_user_profile.map_object(mapper_name=mapper_out, incident_type=IAMUserProfile.UPDATE_INCIDENT_TYPE)
 
             sam_account_name = ad_user.get("sAMAccountName")
@@ -2195,6 +2437,57 @@ script:
     '''
 
 
+    def set_password_not_expire(default_base_dn):
+        args = demisto.args()
+        sam_account_name = args.get('username')
+        pwd_n_exp = argToBoolean(args.get('value'))
+
+        if not sam_account_name:
+            raise Exception("Missing argument - You must specify a username (sAMAccountName).")
+
+        # Query by sAMAccountName
+        sam_account_name = escape_filter_chars(sam_account_name)
+        query = "(&(objectClass=User)(objectCategory=person)(sAMAccountName={}))".format(sam_account_name)
+        entries = search_with_paging(query, default_base_dn, attributes='userAccountControl')
+
+        if not check_if_user_exists_by_attribute(default_base_dn, "sAMAccountName", sam_account_name):
+            return_error(f"sAMAccountName {sam_account_name} was not found.")
+
+        if user := entries.get('flat'):
+            user = user[0]
+            if user_account_control := user.get('userAccountControl'):
+                user_account_control = user_account_control[0]
+
+            # Check if UAC flag for "Password Never Expire" (0x10000) is set to True or False:
+            if pwd_n_exp:
+                # Sets the bit 16 to 1
+                user_account_control |= 1 << 16
+                content_output = (f"AD account {sam_account_name} has set \"password never expire\" attribute. "
+                                  f"Value is set to True")
+            else:
+                # Clears the bit 16 to 0
+                user_account_control &= ~(1 << 16)
+                content_output = (f"AD account {sam_account_name} has cleared \"password never expire\" attribute. "
+                                  f"Value is set to False")
+
+            attribute_name = 'userAccountControl'
+            attribute_value = user_account_control
+            dn = user_dn(sam_account_name, default_base_dn)
+            modification = {attribute_name: [('MODIFY_REPLACE', attribute_value)]}
+
+            # Modify user
+            modify_object(dn, modification)
+            demisto_entry = {
+                'ContentsFormat': formats['text'],
+                'Type': entryTypes['note'],
+                'Contents': content_output
+            }
+            demisto.results(demisto_entry)
+
+        else:
+            raise DemistoException(f"Unable to fetch attribute 'userAccountControl' for user {sam_account_name}.")
+
+
     def main():
         """ INSTANCE CONFIGURATION """
         params = demisto.params()
@@ -2288,6 +2581,9 @@ script:
             if command == 'ad-search':
                 free_search(DEFAULT_BASE_DN, DEFAULT_PAGE_SIZE)
 
+            if command == 'ad-modify-password-never-expire':
+                set_password_not_expire(DEFAULT_BASE_DN)
+
             if command == 'ad-expire-password':
                 expire_user_password(DEFAULT_BASE_DN)
 
@@ -2298,10 +2594,10 @@ script:
                 unlock_account(DEFAULT_BASE_DN)
 
             if command == 'ad-disable-account':
-                disable_user(DEFAULT_BASE_DN)
+                disable_user(DEFAULT_BASE_DN, DEFAULT_PAGE_SIZE)
 
             if command == 'ad-enable-account':
-                enable_user(DEFAULT_BASE_DN)
+                enable_user(DEFAULT_BASE_DN, DEFAULT_PAGE_SIZE)
 
             if command == 'ad-remove-from-group':
                 remove_member_from_group(DEFAULT_BASE_DN)
@@ -2317,6 +2613,9 @@ script:
 
             if command == 'ad-update-user':
                 update_user(DEFAULT_BASE_DN)
+
+            if command == 'ad-update-group':
+                update_group(DEFAULT_BASE_DN)
 
             if command == 'ad-modify-computer-ou':
                 modify_computer_ou(DEFAULT_BASE_DN)
@@ -2380,8 +2679,10 @@ script:
 
 
 
-    ### GENERATED CODE ###
+    ### GENERATED CODE ###: from IAMApiModule import *  # noqa: E402
     # This code was inserted in place of an API module.
+    register_module_line('IAMApiModule', 'start', __line__(), wrapper=-3)
+
 
 
 
@@ -2513,16 +2814,22 @@ script:
         DEFAULT_INCIDENT_TYPE = 'User Profile'
         CREATE_INCIDENT_TYPE = 'User Profile - Create'
         UPDATE_INCIDENT_TYPE = 'User Profile - Update'
+        DISABLE_INCIDENT_TYPE = 'User Profile - Disable'
 
-        def __init__(self, user_profile, user_profile_delta=None):
+        def __init__(self, user_profile, mapper: str, incident_type: str, user_profile_delta=None):
             self._user_profile = safe_load_json(user_profile)
+            # Mapping is added here for GET USER commands, where we need to map Cortex XSOAR fields to the given app fields.
+            self.mapped_user_profile = None
+            self.mapped_user_profile = self.map_object(mapper, incident_type, map_old_data=True) if \
+                mapper else self._user_profile
             self._user_profile_delta = safe_load_json(user_profile_delta) if user_profile_delta else {}
-            self._vendor_action_results = []
+            self._vendor_action_results: List = []
 
-        def get_attribute(self, item, use_old_user_data=False):
-            if use_old_user_data and self._user_profile.get('olduserdata', {}).get(item):
-                return self._user_profile.get('olduserdata', {}).get(item)
-            return self._user_profile.get(item)
+        def get_attribute(self, item, use_old_user_data=False, user_profile_data: Optional[Dict] = None):
+            user_profile = user_profile_data if user_profile_data else self._user_profile
+            if use_old_user_data and user_profile.get('olduserdata', {}).get(item):
+                return user_profile.get('olduserdata', {}).get(item)
+            return user_profile.get(item)
 
         def to_entry(self):
             """ Generates a XSOAR IAM entry from the data in _vendor_action_results.
@@ -2578,6 +2885,9 @@ script:
             if not email:
                 email = self.get_attribute('email')
 
+            if not details:
+                details = self.mapped_user_profile
+
             vendor_action_result = IAMVendorActionResult(
                 success=success,
                 active=active,
@@ -2595,7 +2905,7 @@ script:
 
             self._vendor_action_results.append(vendor_action_result)
 
-        def map_object(self, mapper_name, incident_type):
+        def map_object(self, mapper_name, incident_type, map_old_data: bool = False):
             """ Returns the user data, in an application data format.
 
             :type mapper_name: ``str``
@@ -2604,14 +2914,25 @@ script:
             :type incident_type: ``str``
             :param incident_type: The incident type used.
 
+            :type map_old_data ``bool``
+            :param map_old_data: Whether to map old data as well.
+
             :return: the user data, in the app data format.
             :rtype: ``dict``
             """
-            if incident_type not in [IAMUserProfile.CREATE_INCIDENT_TYPE, IAMUserProfile.UPDATE_INCIDENT_TYPE]:
+            if self.mapped_user_profile:
+                if not map_old_data:
+                    return {k: v for k, v in self.mapped_user_profile.items() if k != 'olduserdata'}
+                return self.mapped_user_profile
+            if incident_type not in [IAMUserProfile.CREATE_INCIDENT_TYPE, IAMUserProfile.UPDATE_INCIDENT_TYPE,
+                                     IAMUserProfile.DISABLE_INCIDENT_TYPE]:
                 raise DemistoException('You must provide a valid incident type to the map_object function.')
             if not self._user_profile:
                 raise DemistoException('You must provide the user profile data.')
             app_data = demisto.mapObject(self._user_profile, mapper_name, incident_type)
+            if map_old_data and 'olduserdata' in self._user_profile:
+                app_data['olduserdata'] = demisto.mapObject(self._user_profile.get('olduserdata', {}), mapper_name,
+                                                            incident_type)
             return app_data
 
         def update_with_app_data(self, app_data, mapper_name, incident_type=None):
@@ -2632,6 +2953,36 @@ script:
                 app_data = safe_load_json(app_data)
             self._user_profile = demisto.mapObject(app_data, mapper_name, incident_type)
 
+        def get_first_available_iam_user_attr(self, iam_attrs: List[str], use_old_user_data: bool = False):
+            # Special treatment for ID field, because he is not included in outgoing mappers.
+            for iam_attr in iam_attrs:
+                # Special treatment for ID field, because he is not included in outgoing mappers.
+                if iam_attr == 'id':
+                    if attr_value := self.get_attribute(iam_attr, use_old_user_data):
+                        return iam_attr, attr_value
+                if attr_value := self.get_attribute(iam_attr, use_old_user_data, self.mapped_user_profile):
+                    # Special treatment for emails, as mapper maps it to a list object.
+                    if iam_attr == 'emails' and not isinstance(attr_value, str):
+                        if isinstance(attr_value, dict):
+                            attr_value = attr_value.get('value')
+                        elif isinstance(attr_value, list):
+                            if not attr_value:
+                                continue
+                            attr_value = next((email.get('value') for email in attr_value if email.get('primary', False)),
+                                              attr_value[0].get('value', ''))
+                    return iam_attr, attr_value
+
+            raise DemistoException('Your user profile argument must contain at least one attribute that is mapped into one'
+                                   f' of the following attributes in the outgoing mapper: {iam_attrs}')
+
+        def set_user_is_already_disabled(self, details):
+            self.set_result(
+                action=IAMActions.DISABLE_USER,
+                skip=True,
+                skip_reason='User is already disabled.',
+                details=details
+            )
+
 
     class IAMUserAppData:
         """ Holds user attributes retrieved from an application.
@@ -2651,11 +3002,13 @@ script:
         :return: None
         :rtype: ``None``
         """
-        def __init__(self, user_id, username, is_active, app_data):
+
+        def __init__(self, user_id, username, is_active, app_data, email=None):
             self.id = user_id
             self.username = username
             self.is_active = is_active
             self.full_data = app_data
+            self.email = email
 
 
     class IAMCommand:
@@ -2676,8 +3029,9 @@ script:
         :return: None
         :rtype: ``None``
         """
+
         def __init__(self, is_create_enabled=True, is_enable_enabled=True, is_disable_enabled=True, is_update_enabled=True,
-                     create_if_not_exists=True, mapper_in=None, mapper_out=None, attr='email'):
+                     create_if_not_exists=True, mapper_in=None, mapper_out=None, get_user_iam_attrs=None):
             """ The IAMCommand c'tor
 
             :param is_create_enabled: (bool) Whether or not to allow creating users in the application.
@@ -2687,7 +3041,11 @@ script:
             :param create_if_not_exists: (bool) Whether or not to create a user if does not exist in the application.
             :param mapper_in: (str) Incoming mapper from the application to Cortex XSOAR
             :param mapper_out: (str) Outgoing mapper from the Cortex XSOAR to the application
+            :param get_user_iam_attrs (List[str]): List of IAM attributes supported by integration by precedence
+                                                            order to get user details.
             """
+            if get_user_iam_attrs is None:
+                get_user_iam_attrs = ['email']
             self.is_create_enabled = is_create_enabled
             self.is_enable_enabled = is_enable_enabled
             self.is_disable_enabled = is_disable_enabled
@@ -2695,7 +3053,7 @@ script:
             self.create_if_not_exists = create_if_not_exists
             self.mapper_in = mapper_in
             self.mapper_out = mapper_out
-            self.attr = attr
+            self.get_user_iam_attrs = get_user_iam_attrs
 
         def get_user(self, client, args):
             """ Searches a user in the application and updates the user profile object with the data.
@@ -2704,10 +3062,11 @@ script:
             :param args: (dict) The `iam-get-user` command arguments
             :return: (IAMUserProfile) The user profile object.
             """
-            user_profile = IAMUserProfile(user_profile=args.get('user-profile'))
+            user_profile = IAMUserProfile(user_profile=args.get('user-profile'), mapper=self.mapper_out,
+                                          incident_type=IAMUserProfile.UPDATE_INCIDENT_TYPE)
             try:
-                identifier = user_profile.get_attribute(self.attr)
-                user_app_data = client.get_user(identifier)
+                iam_attribute, iam_attribute_val = user_profile.get_first_available_iam_user_attr(self.get_user_iam_attrs)
+                user_app_data = client.get_user(iam_attribute, iam_attribute_val)
                 if not user_app_data:
                     error_code, error_message = IAMErrors.USER_DOES_NOT_EXIST
                     user_profile.set_result(action=IAMActions.GET_USER,
@@ -2720,7 +3079,7 @@ script:
                         action=IAMActions.GET_USER,
                         active=user_app_data.is_active,
                         iden=user_app_data.id,
-                        email=user_profile.get_attribute('email'),
+                        email=user_profile.get_attribute('email') or user_app_data.email,
                         username=user_app_data.username,
                         details=user_app_data.full_data
                     )
@@ -2738,16 +3097,17 @@ script:
             :param args: (dict) The `iam-disable-user` command arguments
             :return: (IAMUserProfile) The user profile object.
             """
-
-            user_profile = IAMUserProfile(user_profile=args.get('user-profile'))
+            user_profile = IAMUserProfile(user_profile=args.get('user-profile'), mapper=self.mapper_out,
+                                          incident_type=IAMUserProfile.UPDATE_INCIDENT_TYPE)
             if not self.is_disable_enabled:
                 user_profile.set_result(action=IAMActions.DISABLE_USER,
                                         skip=True,
                                         skip_reason='Command is disabled.')
             else:
                 try:
-                    identifier = user_profile.get_attribute(self.attr)
-                    user_app_data = client.get_user(identifier)
+                    iam_attribute, iam_attribute_val = user_profile.get_first_available_iam_user_attr(
+                        self.get_user_iam_attrs)
+                    user_app_data = client.get_user(iam_attribute, iam_attribute_val)
                     if not user_app_data:
                         _, error_message = IAMErrors.USER_DOES_NOT_EXIST
                         user_profile.set_result(action=IAMActions.DISABLE_USER,
@@ -2755,15 +3115,17 @@ script:
                                                 skip_reason=error_message)
                     else:
                         if user_app_data.is_active:
-                            user_app_data = client.disable_user(user_app_data.id)
-                        user_profile.set_result(
-                            action=IAMActions.DISABLE_USER,
-                            active=False,
-                            iden=user_app_data.id,
-                            email=user_profile.get_attribute('email'),
-                            username=user_app_data.username,
-                            details=user_app_data.full_data
-                        )
+                            disabled_user = client.disable_user(user_app_data.id)
+                            user_profile.set_result(
+                                action=IAMActions.DISABLE_USER,
+                                active=False,
+                                iden=disabled_user.id,
+                                email=user_profile.get_attribute('email') or user_app_data.email,
+                                username=disabled_user.username,
+                                details=disabled_user.full_data
+                            )
+                        else:
+                            user_profile.set_user_is_already_disabled(user_app_data.full_data)
 
                 except Exception as e:
                     client.handle_exception(user_profile, e, IAMActions.DISABLE_USER)
@@ -2779,17 +3141,17 @@ script:
             :param args: (dict) The `iam-create-user` command arguments
             :return: (IAMUserProfile) The user profile object.
             """
-
-            user_profile = IAMUserProfile(user_profile=args.get('user-profile'))
-
+            user_profile = IAMUserProfile(user_profile=args.get('user-profile'), mapper=self.mapper_out,
+                                          incident_type=IAMUserProfile.CREATE_INCIDENT_TYPE)
             if not self.is_create_enabled:
                 user_profile.set_result(action=IAMActions.CREATE_USER,
                                         skip=True,
                                         skip_reason='Command is disabled.')
             else:
                 try:
-                    identifier = user_profile.get_attribute(self.attr)
-                    user_app_data = client.get_user(identifier)
+                    iam_attribute, iam_attribute_val = user_profile.get_first_available_iam_user_attr(
+                        self.get_user_iam_attrs)
+                    user_app_data = client.get_user(iam_attribute, iam_attribute_val)
                     if user_app_data:
                         # if user exists, update it
                         user_profile = self.update_user(client, args)
@@ -2801,7 +3163,7 @@ script:
                             action=IAMActions.CREATE_USER,
                             active=created_user.is_active,
                             iden=created_user.id,
-                            email=user_profile.get_attribute('email'),
+                            email=user_profile.get_attribute('email') or created_user.email,
                             username=created_user.username,
                             details=created_user.full_data
                         )
@@ -2820,29 +3182,34 @@ script:
             :param args: (dict) The `iam-update-user` command arguments
             :return: (IAMUserProfile) The user profile object.
             """
-
-            user_profile = IAMUserProfile(user_profile=args.get('user-profile'))
-            allow_enable = args.get('allow-enable') == 'true'
+            user_profile = IAMUserProfile(user_profile=args.get('user-profile'), mapper=self.mapper_out,
+                                          incident_type=IAMUserProfile.UPDATE_INCIDENT_TYPE)
+            allow_enable = args.get('allow-enable') == 'true' and self.is_enable_enabled
             if not self.is_update_enabled:
                 user_profile.set_result(action=IAMActions.UPDATE_USER,
                                         skip=True,
                                         skip_reason='Command is disabled.')
             else:
                 try:
-                    identifier = user_profile.get_attribute(self.attr, use_old_user_data=True)
-                    user_app_data = client.get_user(identifier)
+                    iam_attribute, iam_attribute_val = user_profile.get_first_available_iam_user_attr(
+                        self.get_user_iam_attrs, use_old_user_data=True)
+                    user_app_data = client.get_user(iam_attribute, iam_attribute_val)
                     if user_app_data:
                         app_profile = user_profile.map_object(self.mapper_out, IAMUserProfile.UPDATE_INCIDENT_TYPE)
 
-                        if allow_enable and self.is_enable_enabled and not user_app_data.is_active:
+                        if allow_enable and not user_app_data.is_active:
                             client.enable_user(user_app_data.id)
 
                         updated_user = client.update_user(user_app_data.id, app_profile)
+
+                        if updated_user.is_active is None:
+                            updated_user.is_active = True if allow_enable else user_app_data.is_active
+
                         user_profile.set_result(
                             action=IAMActions.UPDATE_USER,
                             active=updated_user.is_active,
                             iden=updated_user.id,
-                            email=user_profile.get_attribute('email'),
+                            email=user_profile.get_attribute('email') or updated_user.email or user_app_data.email,
                             username=updated_user.username,
                             details=updated_user.full_data
                         )
@@ -2861,10 +3228,17 @@ script:
             return user_profile
 
 
+    def get_first_primary_email_by_scim_schema(res: Dict):
+        return next((email.get('value') for email in res.get('emails', []) if email.get('primary')), None)
+
+    register_module_line('IAMApiModule', 'end', __line__(), wrapper=1)
+    ### END GENERATED CODE ###
 
     # python2 uses __builtin__ python3 uses builtins
     if __name__ in ('__builtin__', 'builtins', '__main__'):
         main()
+
+    register_module_line('Active Directory Query v2', 'end', __line__())
   subtype: python3
   type: python
 system: true
