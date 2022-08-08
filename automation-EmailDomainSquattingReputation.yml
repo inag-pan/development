@@ -18,7 +18,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -64,7 +64,7 @@ outputs:
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2-
+script: |2
 
   var email = args.email;
   var domains = argToList(args.domain);
