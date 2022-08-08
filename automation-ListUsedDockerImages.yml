@@ -23,13 +23,13 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 6.1.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
     propagationLabels: []
     toServerVersion: ""
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.9.8.24399
 engineinfo: {}
 name: ListUsedDockerImages
 outputs:
@@ -43,6 +43,7 @@ pswd: ""
 runas: DBotWeakRole
 runonce: false
 script: |
+  register_module_line('ListUsedDockerImages', 'start', __line__())
   """ListUsedDockerImages Script for Cortex XSOAR (aka Demisto)
 
   This is a script that list all the dockers images that are in ues in the integrations and automations
@@ -309,6 +310,8 @@ script: |
 
   if __name__ in ('__main__', '__builtin__', 'builtins'):
       main()
+
+  register_module_line('ListUsedDockerImages', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
