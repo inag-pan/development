@@ -10,7 +10,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.13.40
+    itemVersion: 1.31.14
     packID: Base
     packPropagationLabels:
     - all
@@ -23,7 +23,8 @@ name: StixParser
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('StixParser', 'start', __line__())
 
 
   import json
@@ -437,6 +438,8 @@ script: |2
   # IF STIX2 FILE
   if __name__ in ('__builtin__', 'builtins'):
       main()
+
+  register_module_line('StixParser', 'end', __line__())
 scripttarget: 0
 subtype: python2
 system: true
