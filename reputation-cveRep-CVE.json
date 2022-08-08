@@ -18,7 +18,7 @@
 		},
 		"cvedescription": {
 			"complex": {
-				"accessor": "CVEDescription",
+				"accessor": "Description",
 				"filters": [],
 				"root": "CVE",
 				"transformers": [
@@ -157,7 +157,7 @@
 	"formatScript": "",
 	"fromServerVersion": "5.5.0",
 	"id": "cveRep",
-	"itemVersion": "3.1.19",
+	"itemVersion": "3.2.41",
 	"layout": "cveRep",
 	"legacyNames": null,
 	"locked": false,
