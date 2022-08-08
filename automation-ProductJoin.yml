@@ -19,7 +19,7 @@ commonfields:
 contentitemexportablefields:
   contentitemfields:
     fromServerVersion: 5.0.0
-    itemVersion: 1.4.50
+    itemVersion: 1.7.16
     packID: CommonScripts
     packPropagationLabels:
     - all
@@ -32,7 +32,8 @@ name: ProductJoin
 pswd: ""
 runas: DBotWeakRole
 runonce: false
-script: |2
+script: |
+  register_module_line('ProductJoin', 'start', __line__())
 
 
   from itertools import product
@@ -66,6 +67,8 @@ script: |2
 
   if __name__ in ('builtins', '__builtin__'):
       main(demisto.args())
+
+  register_module_line('ProductJoin', 'end', __line__())
 scripttarget: 0
 subtype: python3
 system: true
